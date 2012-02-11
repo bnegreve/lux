@@ -23,6 +23,19 @@ package
 			if(FlxG.keys.RIGHT)	
 				velocity.x += 50;		//If the player is pressing right, then right 150
 
+			if(FlxG.keys.DOWN)
+				velocity.y += 50;		//If the player is pressing left, set velocity to left 150
+			if(FlxG.keys.UP)	
+				velocity.y -= 50;		//If the player is pressing right, then right 150
+
+
 	}
+	
+
+	public function repulse(User:FlxSprite,User:FlxSprite):void{
+	    velocity.x = 0; 
+	    velocity.y = 0;
+	}
+
     }
 }

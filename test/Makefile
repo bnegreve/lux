@@ -6,7 +6,7 @@ MAIN = HelloWorld.as
 SWF = Game.swf
 
 $(SWF) : $(SRC)
-	$(MXMLC)  -static-link-runtime-shared-libraries -sp $(FLIXEL) -o $(SWF) -- $(MAIN)
+	$(MXMLC) -debug=true  -static-link-runtime-shared-libraries -sp $(FLIXEL) -o $(SWF) -- $(MAIN)
 
 .PHONY:
 clean:
