@@ -16,3 +16,7 @@ clean:
 
 run: ${SWF}
 	iceweasel -new-window ${SWF}
+rrun: ${SWF}
+	flashplayer ${SWF}
+gdb: ${SWF}
+	fdb ${SWF}
