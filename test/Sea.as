@@ -3,7 +3,7 @@ package
    import org.flixel.*;	
     public class Sea extends FlxSprite
     {
-	[Embed(source="../img/a3.png")] private var ImgSea0:Class;	//The graphic of the squid monster
+	[Embed(source="a3.png")] private var ImgSea0:Class;	//The graphic of the squid monster
 
 	private var value : int; 
 
