@@ -3,7 +3,8 @@ FLIXEL = ../flixel/stable
 
 SRC = $(wildcard *.as)  $(wildcard *.txt)
 
-MAIN = EZPlatformer.as
+MAIN =  EZPlatformer.as  Head.as  Player.as  PlayState.as  Preloader.as
+
 SWF = Game.swf
 
 $(SWF) : $(SRC)
