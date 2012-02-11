@@ -1,4 +1,4 @@
-MXMLC = ../fcsh-wrap/fcsh-wrap
+MXMLC = ../utils/fcsh-wrap
 FLIXEL = ../flixel/stable
 
 SRC = PlayState.as 
