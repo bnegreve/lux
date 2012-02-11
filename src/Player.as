@@ -13,12 +13,13 @@ package{
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 106, 154,false);
 	   addAnimation("run",[0,1,2,3],12);
-	   loadGraphic(ImgPlayer,true,true, 106, 154,false);
-	   addAnimation("runBack",[0],6);
-	   play("Player");
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
 	   acceleration.y = 200;
+
+	   
+
+
 	   /* hortizontal friction due to his shooes drags him backward*/
 	   drag.x = 30;
        }
@@ -55,7 +56,6 @@ package{
 	       }
 	       if(FlxG.keys.LEFT){
 	       	   velocity.x = -50;
-		   play("runBack");
 	       }
 	       if(FlxG.keys.RIGHT && FlxG.keys.LEFT){
 	       	   velocity.x = 0;
