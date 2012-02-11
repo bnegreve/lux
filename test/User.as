@@ -32,7 +32,7 @@ package
 	}
 	
 
-	public function repulse(User:FlxSprite,User:FlxSprite):void{
+	public function repulse(user:FlxSprite, user2:FlxSprite):void{
 	    velocity.x = 0; 
 	    velocity.y = 0;
 	}
