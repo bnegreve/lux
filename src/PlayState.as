@@ -1,14 +1,21 @@
 package
 {
 	import org.flixel.*;
+//	import com.adobe.serialization.json.*;
+
 
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
 		public var player:FlxSprite;
 
-		[Embed(source="level.txt", mimeType="application/octet-stream")] private var level_file:Class;
-//		[Embed(source="myTiles.png")] private var myTyles:Class;
+		[Embed(source="props.json",       mimeType="application/octet-stream")] private var prop_data:Class;
+
+		[Embed(source="tiles_map.txt", mimeType="application/octet-stream")] private var levelFile:Class;
+		[Embed(source="waves1_layer.txt", mimeType="application/octet-stream")] private var waves1File:Class;
+		[Embed(source="waves2_layer.txt", mimeType="application/octet-stream")] private var waves2File:Class;
+
+		[Embed(source="myTiles.png")] private var myTyles:Class;
 		
 		override public function create():void
 		{
@@ -17,8 +24,8 @@ package
 			
 			//Create a new tilemap using our level data
 			level = new FlxTilemap();
-			//level.loadMap(new level_file, myTyles ,0,0,FlxTilemap.AUTO);
-			level.loadMap(new level_file, FlxTilemap.ImgAuto,0,0,FlxTilemap.AUTO);
+			level.loadMap(new levelFile, myTyles ,10,10,0);
+			//level.loadMap(new level_file, FlxTilemap.ImgAuto,0,0,FlxTilemap.AUTO);
 			add(level);
 			
 			/* Flixel only checks for collisions within a fixed
@@ -33,6 +40,8 @@ package
 			 * and freezing objects out of view. Updating the world
 			 * bounds itself is a cheap operation.  */
 			FlxG.worldBounds = new FlxRect(0, 0, level.width, level.height);
+			trace("width: "+level.width);
+			trace("heigth: "+level.height);
 			
 			/* The camera won¿t travel beyond the limits defined
 			 * here. Useful so that it won¿t travel to places the
@@ -56,6 +65,10 @@ package
 			cam.setBounds(0,0,level.width, level.height);
 			FlxG.addCamera(cam);
 
+			// Display mouse pointer
+			FlxG.mouse.show();
+
+
 		}
 		
 		override public function update():void
@@ -63,9 +76,9 @@ package
 			//Player movement and controls
 			player.acceleration.x = 0;
 			if(FlxG.keys.LEFT)
-				player.acceleration.x = -player.maxVelocity.x*4;
+				player.acceleration.x = -player.maxVelocity.x*160;
 			if(FlxG.keys.RIGHT)
-				player.acceleration.x = player.maxVelocity.x*4;
+				player.acceleration.x = player.maxVelocity.x*160;
 			if(FlxG.keys.justPressed("SPACE") && player.isTouching(FlxObject.FLOOR))
 				player.velocity.y = -player.maxVelocity.y/2;
 			
