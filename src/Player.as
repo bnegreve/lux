@@ -12,6 +12,8 @@ package{
 	   super(xpos, ypos);
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 106, 154,false);
+	   
+	   scale = new FlxPoint(0.2, 0.2);
 	   addAnimation("run",[0,1,2,3],12);
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
@@ -27,40 +29,52 @@ package{
        override public function update():void{
 	   trace("player dynamic "+y+" "+velocity.y+", "+acceleration.y);
 
-	   if(isTouchingTheGround()){
-	       
-	       if(velocity.y > 2){
-		   /* hit the ground with velocity -> bounce */
-	       	       trace("natural bounce value "+0.5*velocity.y);
-	       	       jump(0.4 * velocity.y);
-	       	   }
-		   else if (velocity.y < 0){
-		       /* player is bouncing up, do nothing */
-		   }
-		   else{
-		       velocity.y = 0;
-		       acceleration.y = 0; 
-		       /* reset horizontal friction */
-		       drag.x = 30;
-		   }
-	       
-	       /* jump */
-	       if(FlxG.keys.UP){
-	       	   jump(maxVelocity.y); 
-	       }
-
-	       /* horizontal displacements */
-	       if(FlxG.keys.RIGHT){
-	       	   velocity.x = 50;
-		   play("run"); 
-	       }
-	       if(FlxG.keys.LEFT){
-	       	   velocity.x = -50;
-	       }
-	       if(FlxG.keys.RIGHT && FlxG.keys.LEFT){
-	       	   velocity.x = 0;
-	       }
+	   
+	   if(FlxG.keys.UP){
+	       jump(maxVelocity.y);
 	   }
+
+	   if(FlxG.keys.LEFT){
+	       velocity.x = -50; 
+	   }
+	   if(FlxG.keys.RIGHT){
+	       velocity.x = 50; 
+	   }
+
+	   // if(isTouchingTheGround()){
+	       
+	   //     if(velocity.y > 2){
+	   // 	   /* hit the ground with velocity -> bounce */
+	   //     	       trace("natural bounce value "+0.5*velocity.y);
+	   //     	       jump(0.4 * velocity.y);
+	   //     	   }
+	   // 	   else if (velocity.y < 0){
+	   // 	       /* player is bouncing up, do nothing */
+	   // 	   }
+	   // 	   else{
+	   // 	       velocity.y = 0;
+	   // 	       acceleration.y = 0; 
+	   // 	       /* reset horizontal friction */
+	   // 	       drag.x = 30;
+	   // 	   }
+	       
+	   //     /* jump */
+	   //     if(FlxG.keys.UP){
+	   //     	   jump(maxVelocity.y); 
+	   //     }
+
+	   //     /* horizontal displacements */
+	   //     if(FlxG.keys.RIGHT){
+	   //     	   velocity.x = 50;
+	   // 	   play("run"); 
+	   //     }
+	   //     if(FlxG.keys.LEFT){
+	   //     	   velocity.x = -50;
+	   //     }
+	   //     if(FlxG.keys.RIGHT && FlxG.keys.LEFT){
+	   //     	   velocity.x = 0;
+	   //     }
+	   // }
        }
    
 

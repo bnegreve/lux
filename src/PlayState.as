@@ -7,7 +7,8 @@ package
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
-		public var player:FlxSprite;
+		public var player:Player; 
+
 
 		[Embed(source="props.json",       mimeType="application/octet-stream")] private var prop_data:Class;
 
@@ -16,6 +17,7 @@ package
 		[Embed(source="waves2_layer.txt", mimeType="application/octet-stream")] private var waves2File:Class;
 
 		[Embed(source="myTiles.png")] private var myTyles:Class;
+
 		
 		override public function create():void
 		{
@@ -51,13 +53,16 @@ package
 			FlxG.camera.setBounds(0, 0, level.width, level.height);
 			
 			//Create player (a red box)
-			player = new FlxSprite(15, 15);
-			player.makeGraphic(10,12,0xffaa1111);
-			player.maxVelocity.x = 80;
-			player.maxVelocity.y = 200;
-			player.acceleration.y = 200;
-			player.drag.x = player.maxVelocity.x*4;
+			// player = new FlxSprite(15, 15);
+			// player.makeGraphic(10,12,0xffaa1111);
+			// player.maxVelocity.x = 80;
+			// player.maxVelocity.y = 200;
+			// player.acceleration.y = 200;
+			// player.drag.x = player.maxVelocity.x*4;
+
+			player = new Player(100, 100); 
 			add(player);
+
 			
 			var cam:FlxCamera = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
 			cam.follow(player);
@@ -73,15 +78,7 @@ package
 		
 		override public function update():void
 		{
-			//Player movement and controls
-			player.acceleration.x = 0;
-			if(FlxG.keys.LEFT)
-				player.acceleration.x = -player.maxVelocity.x*160;
-			if(FlxG.keys.RIGHT)
-				player.acceleration.x = player.maxVelocity.x*160;
-			if(FlxG.keys.justPressed("SPACE") && player.isTouching(FlxObject.FLOOR))
-				player.velocity.y = -player.maxVelocity.y/2;
-			
+
 			//Updates all the objects appropriately
 			super.update();
 
