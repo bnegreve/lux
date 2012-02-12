@@ -28,17 +28,17 @@ package{
 
        override public function update():void{
 	   trace("player dynamic "+y+" "+velocity.y+", "+acceleration.y);
-
+	   drag.x = 30;
 	   
 	   if(FlxG.keys.UP){
 	       jump(maxVelocity.y);
 	   }
 
 	   if(FlxG.keys.LEFT){
-	       velocity.x = -50; 
+	       velocity.x = -120; 
 	   }
 	   if(FlxG.keys.RIGHT){
-	       velocity.x = 50; 
+	       velocity.x = 120; 
 	   }
 
 	   // if(isTouchingTheGround()){
