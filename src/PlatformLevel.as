@@ -85,7 +85,10 @@ package
 	for(var i:int = 0; i < length; ){
 	    
 	    nextHeight += FlxG.random()*200 - 100;
-//	    i+= placeLongPass(i, nextHeight);
+
+	    if(FlxG.random()<0.6){
+	    i+= placeLongPass(i, nextHeight);
+	}else
 	    i+= placePlateforme(i, nextHeight);
 
 	    /* generate a random gap */
@@ -115,8 +118,8 @@ package
 	/* make sure there is enough room */
 	if(ypos >= FlxG.height)
 	ypos = FlxG.height - data.height;
-	if(ypos < 2*data.height)
-	ypos = 2*data.height;
+	if(ypos < 4*data.height)
+	ypos = 4*data.height;
 
 	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
