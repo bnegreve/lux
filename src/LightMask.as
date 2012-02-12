@@ -67,7 +67,7 @@ package
 	override public function draw():void {
 	    fill(0x99000000);
 	    
-	    drawTriangle(this, new FlxPoint(player.x+60, player.y-100),FlxG.mouse, 100);
+	    drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
 	    
 	    super.draw();
 

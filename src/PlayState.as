@@ -93,7 +93,7 @@ package
 			var head:Head = new Head(player); 
 			add(head); 
 			
-			cam = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
+			cam = FlxG.camera;//new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
 			cam.follow(player);
 			// this sets the limits of where the camera goes so that it doesn't show what's outside of the tilemap
 			cam.setBounds(0,0,tilesLevel.width, tilesLevel.height);
@@ -194,7 +194,7 @@ package
 			//Updates all the objects appropriately
 			super.update();
 
-			
+			trace("CAM scrolling factor "+ FlxG.camera.scroll.x);
 			//Finally, bump the player up against the level
 			FlxG.collide(tilesLevel,player);
 			FlxG.collide(structLayer,player);
