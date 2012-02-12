@@ -85,15 +85,18 @@ package
 			 * edge of the level in the demo). */
 	
 
-			 FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
-			 FlxG.camera.follow(player);
+			// FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
+			// FlxG.camera.follow(player);
+			// FlxG.addCamera(FlxG.camera);
 
-			//Create player (a red box)
-
-			player = new Player(0, 0); 
+			player = new Player(100, 100); 
 			add(player);
 			var head:Head = new Head(player); 
-			add(head); 
+			add(head);
+			
+			cam = FlxG.camera;
+			cam.follow(player);
+			cam.setBounds(0, 0, tilesLevel.width, FlxG.height);
 
 			// Display mouse pointer
 			FlxG.mouse.show();
