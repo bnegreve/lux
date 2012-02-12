@@ -74,9 +74,10 @@ package
 			 * keep updating the world bounds to the visible area
 			 * and freezing objects out of view. Updating the world
 			 * bounds itself is a cheap operation.  */
-			FlxG.worldBounds = new FlxRect(0, 0, tilesLevel.width, tilesLevel.height);
-			trace("width: "+tilesLevel.width);
-			trace("height: "+tilesLevel.height);
+			FlxG.worldBounds = new FlxRect(0, 0, tilesLevel.width, FlxG.height);
+			
+			trace("width: "+ tilesLevel.width);
+			trace("height: "+FlxG.height);
 			
 			/* The camera won't travel beyond the limits defined
 			 * here. Useful so that it won't travel to places the
@@ -84,20 +85,15 @@ package
 			 * edge of the level in the demo). */
 	
 
-			FlxG.camera.setBounds(0, 0, tilesLevel.width, tilesLevel.height);
-			
+			 FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
+			 FlxG.camera.follow(player);
+
 			//Create player (a red box)
 
-			player = new Player(100, 100); 
+			player = new Player(0, 0); 
 			add(player);
 			var head:Head = new Head(player); 
 			add(head); 
-			
-			cam = FlxG.camera;//new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
-			cam.follow(player);
-			// this sets the limits of where the camera goes so that it doesn't show what's outside of the tilemap
-			cam.setBounds(0,0,tilesLevel.width, tilesLevel.height);
-			FlxG.addCamera(cam);
 
 			// Display mouse pointer
 			FlxG.mouse.show();
