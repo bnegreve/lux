@@ -23,9 +23,11 @@ package
 		private var props:Object;		
 
 		private	var cam:FlxCamera; 
-		private var lightMask:LightMask; 
-		[Embed(source="props.json",       mimeType="application/octet-stream")] private var prop_data:Class;
+		private var lightMask:LightMask;
 
+ 
+		[Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
+		[Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
 		[Embed(source="../maps/struct_props.json",       mimeType="application/octet-stream")] private var PropData:Class;
 
 		[Embed(source="../img/myTiles.png")] private var myTyles:Class;
