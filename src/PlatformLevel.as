@@ -9,6 +9,7 @@ package
     public var tilesLevel:FlxTilemap;
     public var collideGroup:FlxGroup;
     public var backgroundGroup:FlxGroup;
+    public var backgroundGroup2:FlxGroup;
     public var width:Number;
     public var height:Number;
     public static const LEVEL_LENGTH:int = 10000; 
@@ -26,6 +27,7 @@ package
     [Embed(source="../img/plateforme_cabane_1.png"       )] private var plateformeCabine:Class;
     [Embed(source="../img/base_1.png"       )] private var base1:Class;
     [Embed(source="../img/plateforme_caisse_1.png"       )] private var caisse:Class;
+    [Embed(source="../img/boat.png"       )] private var boat:Class;
     private var structProps:Object = {
 	"struct_up": { image: struct_up, width: 100, height: 20},
 	"struct_down": { image: struct_down, width: 100, height: 20},
@@ -34,7 +36,8 @@ package
 	"plateforme_vide": { image: plateformeVide, width: 200, height: 46},
 	"plateforme_cabine": { image: plateformeCabine, width: 80, height: 46},
 	"base1": { image: base1, width: 170, height: 16}, 
-	"caisse": { image: caisse, width: 16, height: 16}
+	"caisse": { image: caisse, width: 16, height: 16},
+	"boat": { image: boat, width: 1024, height: 624}
       };
 
 
@@ -42,6 +45,7 @@ package
 
       collideGroup= new FlxGroup();
       backgroundGroup= new FlxGroup();
+      backgroundGroup2= new FlxGroup();
       tilesLevel = new FlxTilemap();
 
 
@@ -81,6 +85,7 @@ package
 	var length:int = LEVEL_LENGTH;
 	FlxG.worldBounds.width = length;
 
+
 	var nextHeight:int = 200;
 	for(var i:int = 0; i < length; ){
 	    
@@ -94,8 +99,26 @@ package
 	    /* generate a random gap */
 	    i+= FlxG.random()*300;
 	}
-	allLayers.add(collideGroup);
+
+
+	/* add background decorations */
+	var boatPos:int = FlxG.random()* length ;
+	placeBoat(boatPos, 200); 
+
+	allLayers.add(backgroundGroup2);
 	allLayers.add(backgroundGroup);
+	allLayers.add(collideGroup);
+    }
+
+    private function placeBoat(xpos:int, ypos:int):void{
+	var data:Object  = structProps["boat"];
+	if(xpos+data.width > LEVEL_LENGTH){
+	    xpos -= data.width; 
+	}
+	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
+	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	sprite.immovable = true;
+	backgroundGroup.add(sprite);
     }
 
     private function placeLongPass(xpos:int, ypos:int):int{
@@ -139,7 +162,7 @@ package
 	sprite = new FlxSprite(xpos+data.width+10, ypos-40);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
 	sprite.immovable = true;
-	backgroundGroup.add(sprite);
+	collideGroup.add(sprite);
 	
 	data  = structProps["base1"];
 	for(var i:int = ypos+40; i < FlxG.height; ){
