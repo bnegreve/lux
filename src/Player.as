@@ -14,6 +14,7 @@ package{
 	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
 	   
 	   addAnimation("run",[0,1,2,3,4],8);
+	   addAnimation("run",[0,1,2,3,4],8);
 	   play("run");
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
