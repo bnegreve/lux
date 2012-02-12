@@ -17,22 +17,14 @@ package
 		// The layers FlxGroup is going to be comprised of one FlxGroup for each layer.
 		public var allLayers:FlxGroup;
 
-		// This is an Object that stores some information about each of our props. See below for
-		// details.
-		private var props:Object;		
-
 		private var darkness:FlxSprite;
 		private	var cam:FlxCamera; 
 
-		[Embed(source="props.json",       mimeType="application/octet-stream")] private var prop_data:Class;
+		[Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var levelFile:Class;
 
-		[Embed(source="tiles_map.txt", mimeType="application/octet-stream")] private var levelFile:Class;
-		[Embed(source="waves1_layer.txt", mimeType="application/octet-stream")] private var waves1File:Class;
-		[Embed(source="waves2_layer.txt", mimeType="application/octet-stream")] private var waves2File:Class;
-
-		[Embed(source="myTiles.png")] private var myTyles:Class;
-		[Embed(source="waves1.png")] private var wavesImg1:Class;
-		[Embed(source="waves2.png")] private var wavesImg2:Class;
+		[Embed(source="../img/myTiles.png")] private var myTyles:Class;
+		[Embed(source="../img/waves1.png")] private var wavesImg1:Class;
+		[Embed(source="../img/waves2.png")] private var wavesImg2:Class;
 		
 		override public function create():void
 		{
@@ -56,8 +48,11 @@ package
 			allLayers.add(tilesLevel);
 
 
+			var wavesProps:Array = new Array (
+				new SceneryImage(wavesImg1, 0.5, 100, 20),
+				new SceneryImage(wavesImg2, 0.7, 100, 20) );
 
-			loadWaves();
+			loadWaves(wavesProps, tilesLevel.width, tilesLevel.height);
 
 			
 			/* Flixel only checks for collisions within a fixed
@@ -103,34 +98,24 @@ package
 
 		}
 
-		private function loadWaves():void
+		private function loadWaves(imageProps:Array, mainLevelWidth:uint, mainLevelHeight:uint):void
 		{
 
-			// We need to put all of our prop images into a data structure that is compatible with
-			// the Flevel data. Essentially, we just need to associate each prop's name with its image
-			// and any other important data.
-			props = {
-				"waves1": { image: wavesImg1, scrollFactor: 0.5, width: 100, height: 20 },
-				"waves2": { image: wavesImg2, scrollFactor: 0.7, width: 100, height: 20 }
-			};
+		  
 			var nbRepeat:uint;
 			var imgId:uint = 0;
 
 			// Now we can load the sprite and do whatever we want with it. This is where all
 			// the data we stored at the beginning is useful.
 
-			for each (var curImg:Object in props) {
-			  //			var curImg:Object      = props["waves1"];
+			for (imgId = 0; imgId < imageProps.length; imgId++) {
+			  var curImg:SceneryImage = imageProps[imgId];
 			  var curWaveLayer:FlxGroup = new FlxGroup();
 
-			  for (nbRepeat = 0; nbRepeat < 1100 / curImg.width * 2; nbRepeat++) {
-			    var sprite:FlxSprite = new FlxSprite(nbRepeat * curImg.width, 480 - curImg.height);
+			  for (nbRepeat = 0; nbRepeat < mainLevelWidth / curImg.width * 2; nbRepeat++) {
+			    var sprite:FlxSprite = new FlxSprite(nbRepeat * curImg.width, mainLevelHeight - curImg.height);
 			    sprite.loadGraphic(curImg.image);
 			    sprite.scrollFactor.x = curImg.scrollFactor;
-			    // Set the sprite properties from the flevel data.
-			    //sprite.angle   = prop.angle;
-			    //sprite.scale.x = sprite.scale.y = prop.scale;
-			    // Add the prop to the layer group.
 			    curWaveLayer.add(sprite);
 			  }
 			allLayers.add(curWaveLayer);
