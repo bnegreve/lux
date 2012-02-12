@@ -14,6 +14,7 @@ package
 		private var wavesLayer1:FlxTilemap;
 		private var wavesLayer2:FlxTilemap;
 
+		public var structLayer:FlxGroup;
 		// The layers FlxGroup is going to be comprised of one FlxGroup for each layer.
 		public var allLayers:FlxGroup;
 
@@ -47,7 +48,7 @@ package
 		    add(darkness);
 
 			//Set the background color to light gray (0xAARRGGBB)
-			FlxG.bgColor = 0xff222222;
+			FlxG.bgColor = 0xff444444;
 			
 			var structProps:Object = {
 				"struct_up": { image: struct_up, width: 100, height: 20},
@@ -127,7 +128,7 @@ package
 
 		private function loadStructLayer(prop_data:Object, structProps:Object, index:uint):void {
 
-			var structLayer:FlxGroup = new FlxGroup();
+			structLayer= new FlxGroup();
 			
 			// Loading the layer's tilemap is easy. Just don't forget to set startingIndex to 1!
 			tilesLevel = new FlxTilemap();
@@ -141,12 +142,15 @@ package
 				// the data we stored at the beginning is useful.
 				var data:Object      = structProps[prop.id];
 				var sprite:FlxSprite = new FlxSprite(prop.x, prop.y);
-				sprite.loadGraphic(data.image);
+				sprite.loadGraphic(data.image, true, false, 100, 20, false);
 				
 				// Set the sprite properties from the flevel data.
 				sprite.angle   = prop.angle;
 				sprite.scale.x = sprite.scale.y = prop.scale;
-				
+				sprite.immovable = true;
+				//sprite.solid = true;
+				//sprite.allowCollisions = FlxObject.FLOOR;
+
 				// Add the prop to the layer group.
 				structLayer.add(sprite);
 			}
@@ -245,6 +249,7 @@ package
 			
 			//Finally, bump the player up against the level
 			FlxG.collide(tilesLevel,player);
+			FlxG.collide(structLayer,player);
 			
 			//Check for player lose conditions
 			if(player.y > FlxG.height)
