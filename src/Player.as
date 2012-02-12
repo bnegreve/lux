@@ -21,9 +21,9 @@ package{
 	   addAnimation("jumping",[11],0);
 	   addAnimation("endjump",[12,13,14,0],16,false);
 	   play("run");
-	   maxVelocity.x = 80;
-	   maxVelocity.y = 200;
-	   acceleration.y = 200;
+	   maxVelocity.x = 160;
+	   maxVelocity.y = 400;
+	   acceleration.y = 400;
 
 	   /* hortizontal friction due to his shooes drags him backward*/
 	   drag.x = 30;
@@ -84,7 +84,7 @@ package{
 	       }
 
 	       //its an autorunner after all
-	   velocity.x = 200; 
+	   velocity.x = 400; 
 	   checkBoundaries();
        }
    
@@ -113,8 +113,8 @@ package{
        protected function jump(jumpVelocity:int):void{
 	   /* no horiztontal friction when he flies */
 	   drag.x = 0; 
-	   acceleration.y = 200;
-	   velocity.y = -jumpVelocity; 
+	   acceleration.y = 400;
+	   velocity.y = -jumpVelocity*0.6; 
 	   play("startjump");
 	   trace("jump "+jumpVelocity+" velocity "+velocity.y+" acceleration "+acceleration.y);
        }
