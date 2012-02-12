@@ -1,5 +1,4 @@
-package
-{
+package {
   import org.flixel.*;
   import com.adobe.serialization.json.*;
 
@@ -34,7 +33,7 @@ package
 
     private function loadWaves(allLayers:FlxGroup, globalWidth:uint, globalHeight:uint):void {
       var nbRepeat:uint;
-      
+
       // Now we can load the sprite and do whatever we want with it. This is where all
       // the data we stored at the beginning is useful.
 
@@ -54,24 +53,26 @@ package
       }
       allLayers.add(this);
     }
+
     override public function update():void {
       //Updates all the objects appropriately
       super.update();
-      
-//      for (var imgId:uint = 0; imgId < nbLayers; imgId++) {
-//	// if counter == 0, reset counter to random value
-//	if ( layersHistory[1] == 0 ) {
-//	  layersHistory[1] = Math.random()*100;
-//	  layersHistory[0] = layersHistory[0]*-1;
-//	}
-//	trace("======================= poulet: "+this.members[0].members+" =====================================");
-//	for (var j:int = 0; j < this.members[imgId].members.length; j++) {
-//	  trace("------------------------- inf or each -----------------------------");
-//	  var curSprite:FlxSprite = this.members[imgId].members[j];
-//	  curSprite.x += layersHistory[0];
-//	}
-//	layersHistory[1]--;
-//      }
-//    }    
+
+      //      for (var imgId:uint = 0; imgId < nbLayers; imgId++) {
+      //	// if counter == 0, reset counter to random value
+      //	if ( layersHistory[1] == 0 ) {
+      //	  layersHistory[1] = Math.random()*100;
+      //	  layersHistory[0] = layersHistory[0]*-1;
+      //	}
+      //	trace("======================= poulet: "+this.members[0].members+" =====================================");
+      //	for (var j:int = 0; j < this.members[imgId].members.length; j++) {
+      //	  trace("------------------------- inf or each -----------------------------");
+      //	  var curSprite:FlxSprite = this.members[imgId].members[j];
+      //	  curSprite.x += layersHistory[0];
+      //	}
+      //	layersHistory[1]--;
+      //      }
+      //    }    
+    }
   }
 }
