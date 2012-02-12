@@ -92,7 +92,8 @@ package
 
 			player = new Player(100, 100); 
 			add(player);
-
+			var head:Head = new Head(player); 
+			add(head); 
 			
 			cam = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
 			cam.follow(player);
