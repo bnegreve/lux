@@ -219,6 +219,7 @@ package
 
 			if(player.isAlive == false){
 			    cameraTarget.velocity.x = 0; 
+			    lightMask.lightOn = false; 
 			}
 		}
 		

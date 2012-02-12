@@ -4,15 +4,17 @@ package
     //	import com.adobe.serialization.json.*;
     import flash.display.Sprite;
     import flash.display.*;
-
+    
     
     public class LightMask extends FlxSprite{
 	private var player:FlxSprite;
+	public var lightOn:Boolean;
+	
 	public function LightMask(player:FlxSprite){
 	    this.player = player; 
 	    super(0,0);
 	    makeGraphic(FlxG.width, FlxG.height, 0xff000000);
-	    
+	    lightOn = true;
 	    scrollFactor.x = scrollFactor.y = 0;
 	    blend = "multiply";
 	}
@@ -50,9 +52,9 @@ package
 	    star_coord[0] = 0+Center.x; //x
 	    star_coord[1] = 100+Center.y; //y
 	    star_coord[2] = FlxG.width;
-	    star_coord[3] = target.y-50;
+	    star_coord[3] = target.y-100;
 	    star_coord[4] = FlxG.width;
-	    star_coord[5] = target.y+50;
+	    star_coord[5] = target.y+100;
 	    star_coord[6] = 0+Center.x; //x
 	    star_coord[7] = 100+Center.y; //y
 
@@ -65,10 +67,12 @@ package
 	}
 
 	override public function draw():void {
-	    fill(0x88000000);
-//	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
-	    drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
-	    
+	    fill(0xbb000000);
+	    //	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
+
+	    if(lightOn){
+		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
+	    }
 	    super.draw();
 
 	}
