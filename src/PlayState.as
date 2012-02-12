@@ -91,14 +91,14 @@ package
 			// FlxG.camera.follow(player);
 			// FlxG.addCamera(FlxG.camera);
 
+
 			player = new Player(20, 100); 
-			add(player);
 			var head:Head = new Head(player); 
-			add(head);
-
-
 			lightMask = new LightMask(head); 
+
 			add(lightMask); 
+			add(player);
+			add(head);
 
 
 		}
