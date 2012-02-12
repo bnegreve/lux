@@ -33,6 +33,7 @@ package
 
 
       loadMainMap(allLayers);
+      width = tilesLevel.width;
     }
 
 
