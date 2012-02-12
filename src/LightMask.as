@@ -9,7 +9,6 @@ package
     public class LightMask extends FlxSprite{
 	private var player:FlxSprite;
 	public var lightOn:Boolean;
-	
 	public function LightMask(player:FlxSprite){
 	    this.player = player; 
 	    super(0,0);
@@ -67,16 +66,18 @@ package
 	}
 
 	override public function draw():void {
-	    fill(0xbb000000);
+
 	    //	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
 
 	    if(lightOn){
+		fill(0x99000000);
 		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
 	    }
+	    else
+	    fill(0xbb000000);
 	    super.draw();
 
 	}
-
 
     }
 

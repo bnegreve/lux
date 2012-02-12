@@ -25,7 +25,7 @@ package
 
 		private	var cam:FlxCamera; 
 		private var lightMask:LightMask;
-
+		private var gameState:int; 
  
 		[Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
 		[Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
@@ -43,6 +43,7 @@ package
 		override public function create():void
 		{
 
+		    gameState=1;/* game is running */
 			allLayers = new FlxGroup();		 
 
 			//Set the background color to light gray (0xAARRGGBB)
@@ -217,11 +218,20 @@ package
 				FlxG.resetState();
 			}
 
-			if(player.isAlive == false){
-			    cameraTarget.velocity.x = 0; 
-			    lightMask.lightOn = false; 
+			if(player.isAlive == false && gameState == 1){
+			    gameOver();
 			}
 		}
+
+
+		public function gameOver():void{
+		    gameState = 0; 
+		    cameraTarget.velocity.x = 0;
+		    lightMask.lightOn = false;
+		    add(new FlxText(FlxG.width/2+cam.scroll.x,FlxG.height/2,400,"Game Over"))
+		}
+
+
 		
 	}
 }
