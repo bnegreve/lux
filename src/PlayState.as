@@ -68,15 +68,6 @@ package
 			 * player isn't supposed to see (for example beyond the
 			 * edge of the level in the demo). */
 	
-
-			// FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
-			// FlxG.camera.follow(player);
-			// FlxG.addCamera(FlxG.camera);
-
-			player = new Player(20, 100); 
-			add(player);
-			var head:Head = new Head(player); 
-			add(head);
 			
 			cam = FlxG.camera;
 
@@ -93,6 +84,18 @@ package
 
 			// Add the layers to the scene.
 			add(allLayers);
+
+
+
+			// FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
+			// FlxG.camera.follow(player);
+			// FlxG.addCamera(FlxG.camera);
+
+			player = new Player(20, 100); 
+			add(player);
+			var head:Head = new Head(player); 
+			add(head);
+
 
 			lightMask = new LightMask(head); 
 			add(lightMask); 

@@ -8,6 +8,7 @@ package
 
     public var tilesLevel:FlxTilemap;
     public var collideGroup:FlxGroup;
+    public var backgroundGroup:FlxGroup;
     public var width:Number;
     public var height:Number;
 
@@ -21,17 +22,26 @@ package
     [Embed(source="../img/struct_up.png"       )] private var struct_up:Class;
 
     [Embed(source="../img/plateforme_passerelle_1.png"       )] private var plateformePasserelle1:Class;
+    [Embed(source="../img/plateforme_vide_1.png"       )] private var plateformeVide:Class;
+    [Embed(source="../img/plateforme_cabane_1.png"       )] private var plateformeCabine:Class;
+    [Embed(source="../img/base_1.png"       )] private var base1:Class;
+    [Embed(source="../img/plateforme_caisse_1.png"       )] private var caisse:Class;
     private var structProps:Object = {
 	"struct_up": { image: struct_up, width: 100, height: 20},
 	"struct_down": { image: struct_down, width: 100, height: 20},
 	"struct_straight": { image: struct_straight, width: 100, height: 20},
-	"plateforme_passerelle_1": { image: plateformePasserelle1, width: 461, height: 29}
+	"plateforme_passerelle_1": { image: plateformePasserelle1, width: 461, height: 29},
+	"plateforme_vide": { image: plateformeVide, width: 200, height: 46},
+	"plateforme_cabine": { image: plateformeCabine, width: 80, height: 46},
+	"base1": { image: base1, width: 170, height: 16}, 
+	"caisse": { image: caisse, width: 16, height: 16}
       };
 
 
     public function PlatformLevel(allLayers:FlxGroup) {
 
       collideGroup= new FlxGroup();
+      backgroundGroup= new FlxGroup();
       tilesLevel = new FlxTilemap();
 
 
@@ -75,15 +85,17 @@ package
 	for(var i:int = 0; i < length; ){
 	    
 	    nextHeight += FlxG.random()*200 - 100;
-	    i+= placeLongPlateforme(i, nextHeight);
+//	    i+= placeLongPass(i, nextHeight);
+	    i+= placePlateforme(i, nextHeight);
 
 	    /* generate a random gap */
 	    i+= FlxG.random()*300;
 	}
 	allLayers.add(collideGroup);
+	allLayers.add(backgroundGroup);
     }
 
-    private function placeLongPlateforme(xpos:int, ypos:int):int{
+    private function placeLongPass(xpos:int, ypos:int):int{
 	var data:Object  = structProps["plateforme_passerelle_1"];
 	if(ypos >= FlxG.height)
 	ypos = FlxG.height - data.height;
@@ -97,6 +109,49 @@ package
 	return data.width;
     }
 
+    private function placePlateforme(xpos:int, ypos:int):int{
+	
+	var data:Object  = structProps["plateforme_vide"];
+	/* make sure there is enough room */
+	if(ypos >= FlxG.height)
+	ypos = FlxG.height - data.height;
+	if(ypos < 2*data.height)
+	ypos = 2*data.height;
+
+	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
+	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	sprite.immovable = true;
+	collideGroup.add(sprite);
+
+	if(FlxG.random()>0.5){
+	    /* draw a case */
+	    data  = structProps["caisse"];
+	    sprite = new FlxSprite(xpos+10, ypos-18);
+	    sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	    sprite.immovable = false;
+	    collideGroup.add(sprite);
+	}
+
+	data  = structProps["plateforme_cabine"];
+	sprite = new FlxSprite(xpos+data.width+10, ypos-40);
+	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	sprite.immovable = true;
+	backgroundGroup.add(sprite);
+	
+	data  = structProps["base1"];
+	for(var i:int = ypos+40; i < FlxG.height; ){
+	    sprite = new FlxSprite(xpos+10, i);
+	    sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	    sprite.immovable = true;
+	    backgroundGroup.add(sprite);
+	    i += data.height;
+	}
+
+
+
+	return data.width;
+
+    }
 
     private function loadStructLayer(prop_data:Object, allLayers:FlxGroup, index:uint):void {
 
