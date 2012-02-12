@@ -10,16 +10,11 @@ package
 	{
 		private var player:FlxSprite;
 		
-		private var wavesLayer1:FlxTilemap;
-		private var wavesLayer2:FlxTilemap;
-
 		private var platformLevel:PlatformLevel;
+		private var seaLayers:SeaLayers;
+
 		// The layers FlxGroup is going to be comprised of one FlxGroup for each layer.
 		private var allLayers:FlxGroup;
-
-		// This is an Object that stores some information about each of our props. See below for
-		// details.
-		private var props:Object;		
 
 		private var globalWidth:Number;
 		private var globalHeight:Number;
@@ -28,8 +23,6 @@ package
 		private var lightMask:LightMask;
 
  
-		[Embed(source="../img/mer_1.png")] private var wavesImg1:Class;
-		[Embed(source="../img/mer_2.png")] private var wavesImg2:Class;
 		
 
 
@@ -38,19 +31,18 @@ package
 
 			allLayers = new FlxGroup();		 
 
+
+
+			// Differents must eb added in order, from background to foreground
+
 			platformLevel = new PlatformLevel(allLayers);
 			globalWidth = platformLevel.width;
 			globalHeight = FlxG.height;
+			trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
 			//Set the background color to light gray (0xAARRGGBB)
-			FlxG.bgColor = 0xff444444;
+			FlxG.bgColor = 0xff111111;
 			
-			var wavesProps:Array = new Array (
-				new SceneryImage(wavesImg2, 0.7, 1716, 100), 
-				new SceneryImage(wavesImg1, 0.5, 1426, 50)
-				);
-
-			loadWaves(wavesProps, globalWidth, globalHeight);
-
+			seaLayers = new SeaLayers(allLayers, globalWidth, globalHeight);
 			
 			/* Flixel only checks for collisions within a fixed
 			 * size to save on performance (smaller area to check
@@ -99,37 +91,12 @@ package
 
 		}
 
-		private function loadWaves(imageProps:Array, mainLevelWidth:uint, mainLevelHeight:uint):void
-		{
-
-		  
-			var nbRepeat:uint;
-			var imgId:uint = 0;
-
-			// Now we can load the sprite and do whatever we want with it. This is where all
-			// the data we stored at the beginning is useful.
-
-			for (imgId = 0; imgId < imageProps.length; imgId++) {
-			  var curImg:SceneryImage = imageProps[imgId];
-			  var curWaveLayer:FlxGroup = new FlxGroup();
-
-			  for (nbRepeat = 0; nbRepeat < mainLevelWidth / curImg.width * 2; nbRepeat++) {
-			    var sprite:FlxSprite = new FlxSprite(nbRepeat * curImg.width, mainLevelHeight - curImg.height);
-			    sprite.loadGraphic(curImg.image);
-			    sprite.scrollFactor.x = curImg.scrollFactor;
-			    sprite.solid = false;
-			    trace("wave sprite x:"+sprite.x+" y:"+sprite.y+" w:"+sprite.width+" h:"+sprite.height);
-			    curWaveLayer.add(sprite);
-			  }
-			  allLayers.add(curWaveLayer);
-			}
-		}
-		
 
 		override public function update():void
 		{
 			//Updates all the objects appropriately
 			super.update();
+
 
 			// Flixel's collision detection is great, but for
 			// large-area games (platformers, etc.) it's
