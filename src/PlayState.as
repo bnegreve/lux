@@ -35,7 +35,7 @@ package
 			allLayers = new FlxGroup();		 
 
 			//Set the background color to light gray (0xAARRGGBB)
-			FlxG.bgColor = 0x00aaaaaa;
+			FlxG.bgColor = 0xff222222;
 			
 			//Create a new tilemap using our level data
 			tilesLevel = new FlxTilemap();
@@ -101,8 +101,8 @@ package
 			// the Flevel data. Essentially, we just need to associate each prop's name with its image
 			// and any other important data.
 			props = {
+				"waves2": { image: wavesImg2, scrollFactor: 0.7, width: 100, height: 20 },
 				"waves1": { image: wavesImg1, scrollFactor: 0.5, width: 100, height: 20 }
-				//"waves2": { image: wavesImg2, scrollFactor: 0.7, width: 100, height: 20 }
 			};
 			var nbRepeat:uint;
 			var imgId:uint = 0;
