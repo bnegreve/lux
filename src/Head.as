@@ -25,8 +25,8 @@ package{
 
 
        override public function update():void{
-	   x = body.x+20; 
-	   y = body.y -10;
+	   x = body.x+25; 
+	   y = body.y -6;
 	   var headPos:FlxPoint = new FlxPoint(x, y);
 
 	   var angle:int = FlxU.getAngle(headPos, FlxG.mouse);
