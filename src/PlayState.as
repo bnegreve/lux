@@ -56,10 +56,10 @@ package
 			};
 
 			loadMainMap(structProps);
-
 			var wavesProps:Array = new Array (
-				new SceneryImage(wavesImg1, 0.5, 100, 20),
-				new SceneryImage(wavesImg2, 0.7, 100, 20) );
+				new SceneryImage(wavesImg2, 0.7, 1716, 100), 
+				new SceneryImage(wavesImg1, 0.5, 1426, 50)
+				);
 
 			loadWaves(wavesProps, tilesLevel.width, tilesLevel.height);
 
@@ -173,6 +173,7 @@ package
 			    var sprite:FlxSprite = new FlxSprite(nbRepeat * curImg.width, mainLevelHeight - curImg.height);
 			    sprite.loadGraphic(curImg.image);
 			    sprite.scrollFactor.x = curImg.scrollFactor;
+			    sprite.solid = false;
 			    curWaveLayer.add(sprite);
 			  }
 			allLayers.add(curWaveLayer);
