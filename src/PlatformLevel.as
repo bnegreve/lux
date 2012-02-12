@@ -11,7 +11,7 @@ package
     public var backgroundGroup:FlxGroup;
     public var width:Number;
     public var height:Number;
-
+    public static const LEVEL_LENGTH:int = 10000; 
     [Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
     [Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
     [Embed(source="../maps/struct_props.json",       mimeType="application/octet-stream")] private var PropData:Class;
@@ -47,7 +47,7 @@ package
 
       loadMainMap(allLayers);
       generateLevel(allLayers)
-      width = tilesLevel.width;
+      width = LEVEL_LENGTH; //tilesLevel.width;
     }
 
 
@@ -60,9 +60,9 @@ package
       // prop_data.length. We'll use that to load each layer.
       
 
-      for (var i:uint = 0; i < prop_data.length; i++) {
-      	loadStructLayer(prop_data, allLayers, i);
-      }
+      // for (var i:uint = 0; i < prop_data.length; i++) {
+      // 	loadStructLayer(prop_data, allLayers, i);
+      // }
 
       ////Create a new tilemap using our level data
       //tilesLevel = new FlxTilemap();
@@ -78,7 +78,7 @@ package
 
 
 
-	var length:int = 20000; 
+	var length:int = LEVEL_LENGTH;
 	FlxG.worldBounds.width = length;
 
 	var nextHeight:int = 200;
