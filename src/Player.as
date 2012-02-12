@@ -13,7 +13,7 @@ package{
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
 	   
-	   addAnimation("run",[0,1,2,3,4,5,6,7,8],4);
+	   addAnimation("run",[0,1,2,3,4,5,6,7,8],8);
 	   play("run");
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
