@@ -28,6 +28,12 @@ package
     [Embed(source="../img/base_1.png"       )] private var base1:Class;
     [Embed(source="../img/plateforme_caisse_1.png"       )] private var caisse:Class;
     [Embed(source="../img/boat.png"       )] private var boat:Class;
+    [Embed(source="../img/arr_1.png"       )] private var arr1:Class;
+    [Embed(source="../img/arr_2.png"       )] private var arr2:Class;
+    [Embed(source="../img/arr_3.png"       )] private var arr3:Class;
+    [Embed(source="../img/arr_4.png"       )] private var arr4:Class;
+    [Embed(source="../img/arr_5.png"       )] private var arr5:Class;
+    [Embed(source="../img/arr_6.png"       )] private var arr6:Class;
     private var structProps:Object = {
 	"struct_up": { image: struct_up, width: 100, height: 20},
 	"struct_down": { image: struct_down, width: 100, height: 20},
@@ -37,7 +43,13 @@ package
 	"plateforme_cabine": { image: plateformeCabine, width: 80, height: 46},
 	"base1": { image: base1, width: 170, height: 16}, 
 	"caisse": { image: caisse, width: 16, height: 16},
-	"boat": { image: boat, width: 1024, height: 624}
+	"boat": { image: boat, width: 1024, height: 624},
+	"arr1": { image: arr1, width: 428, height: 221},
+	"arr2": { image: arr2, width: 301, height: 424},
+	"arr3": { image: arr3, width: 974, height: 502},
+	"arr4": { image: arr4, width: 461, height: 120},
+	"arr5": { image: arr5, width: 755, height: 322},
+	"arr6": { image: arr6, width: 628, height: 323}
       };
 
 
@@ -101,9 +113,32 @@ package
 	}
 
 
-	/* add background decorations */
-	var boatPos:int = FlxG.random()* length ;
-	placeBoat(boatPos, 200); 
+	// /* add background2 decorations */
+	// var boatPos:int = FlxG.random()* length ;
+	// placeBoat(boatPos, 200); 
+
+	// var pos:int = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200,"arr1"); 
+
+	// pos = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200, "arr2");
+
+
+	// pos = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200, "arr3");
+
+
+	// pos = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200, "arr4");
+
+
+	// pos = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200, "arr5");
+
+
+	// pos = FlxG.random()* length ;
+	// placeBackground2Object(pos, 200, "arr6");
+
 
 	allLayers.add(backgroundGroup2);
 	allLayers.add(backgroundGroup);
@@ -119,6 +154,18 @@ package
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
 	sprite.immovable = true;
 	backgroundGroup.add(sprite);
+    }
+
+
+    private function placeBackground2Object(xpos:int, ypos:int, objectType:String):void{
+	var data:Object  = structProps[objectType];
+	if(xpos+data.width > LEVEL_LENGTH){
+	    xpos -= data.width; 
+	}
+	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
+	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	sprite.immovable = true;
+	backgroundGroup2.add(sprite);
     }
 
     private function placeLongPass(xpos:int, ypos:int):int{
@@ -139,10 +186,10 @@ package
 	
 	var data:Object  = structProps["plateforme_vide"];
 	/* make sure there is enough room */
-	if(ypos >= FlxG.height)
-	ypos = FlxG.height - data.height;
-	if(ypos < 4*data.height)
-	ypos = 4*data.height;
+	 if(ypos >= FlxG.height)
+	 ypos = FlxG.height - data.height;
+	 if(ypos < 2*data.height)
+	 ypos = 2*data.height;
 
 	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);

@@ -74,7 +74,7 @@ package
 
 			cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
 			add(cameraTarget); 
-			cameraTarget.velocity.x = 270; 
+			cameraTarget.velocity.x = 275; 
 			cam.follow(cameraTarget);
 			cam.setBounds(0, 0, globalWidth, globalHeight);
 
