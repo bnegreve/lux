@@ -11,10 +11,10 @@ package{
        public function Player(xpos:int, ypos:int){
 	   super(xpos, ypos);
 	   trace("creating player at "+x+", "+y);
-	   loadGraphic(ImgPlayer,true,false, 106, 154,false);
+	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
 	   
-	   scale = new FlxPoint(0.2, 0.2);
-	   addAnimation("run",[0,1,2,3],12);
+	   addAnimation("run",[0,1,2,3,4],8);
+	   play("run");
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
 	   acceleration.y = 200;

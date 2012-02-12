@@ -2,14 +2,17 @@ package
 {
 	import org.flixel.*;
 //	import com.adobe.serialization.json.*;
+    import flash.display.Sprite;
+    import flash.display.*;
 
 
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
 		public var player:Player; 
-
-
+		private var darkness:FlxSprite;
+		private	var cam:FlxCamera; 
+		[Embed(source="../img/lightmask.png")] private var ImgLightMask:Class;
 		[Embed(source="props.json",       mimeType="application/octet-stream")] private var prop_data:Class;
 
 		[Embed(source="tiles_map.txt", mimeType="application/octet-stream")] private var levelFile:Class;
@@ -17,10 +20,17 @@ package
 		[Embed(source="waves2_layer.txt", mimeType="application/octet-stream")] private var waves2File:Class;
 
 		[Embed(source="myTiles.png")] private var myTyles:Class;
-
 		
 		override public function create():void
 		{
+		    darkness = new FlxSprite(0,0);
+		    darkness.makeGraphic(FlxG.width, FlxG.height, 0xff000000);
+//		    darkness.loadGraphic(ImgLightMask);
+		    darkness.scrollFactor.x = darkness.scrollFactor.y = 0;
+		    darkness.blend = "multiply";
+
+		    add(darkness);
+
 			//Set the background color to light gray (0xAARRGGBB)
 			FlxG.bgColor = 0xffaaaaaa;
 			
@@ -64,7 +74,7 @@ package
 			add(player);
 
 			
-			var cam:FlxCamera = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
+			cam = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
 			cam.follow(player);
 			// this sets the limits of where the camera goes so that it doesn't show what's outside of the tilemap
 			cam.setBounds(0,0,level.width, level.height);
@@ -76,6 +86,62 @@ package
 
 		}
 		
+		public function drawTriangle(Sprite:FlxSprite, Center:FlxPoint, Radius:Number = 30, LineColor:uint = 0xffffffff, LineThickness:uint = 1, FillColor:uint = 0xffffffff):void {
+		    
+		    var gfx:Graphics = FlxG.flashGfx;
+		    gfx.clear();
+		    
+		    // Line alpha
+		    var alphaComponent:Number = Number((LineColor >> 24) & 0xFF) / 255;
+		    if(alphaComponent <= 0)
+		    alphaComponent = 1;
+		    
+		    gfx.lineStyle(LineThickness, LineColor, alphaComponent);
+		    
+		    // Fill alpha
+		    alphaComponent = Number((FillColor >> 24) & 0xFF) / 255;
+		    if(alphaComponent <= 0)
+		    alphaComponent = 1;
+		    
+		    gfx.beginFill(FillColor & 0x00ffffff, alphaComponent);
+		    
+		    //	    gfx.drawCircle(Center.x, Center.y, Radius);
+
+		    var star_commands:Vector.<int> = new Vector.<int>(4, true);
+		    star_commands[0] = 1;
+		    star_commands[1] = 2;
+		    star_commands[2] = 2;
+		    star_commands[3] = 2;
+		    // star_commands[4] = 2;
+
+		    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
+		    star_coord[0] = 0+Center.x; //x
+		    star_coord[1] = 100+Center.y; //y
+		    star_coord[2] = 200+Center.x;
+		    star_coord[3] = 50+Center.y;
+		    star_coord[4] = 200+Center.x;
+		    star_coord[5] = 150+Center.y;
+		    star_coord[6] = 0+Center.x; //x
+		    star_coord[7] = 100+Center.y; //y
+
+		    gfx.drawPath(star_commands, star_coord);
+
+		    gfx.endFill();
+		    
+		    Sprite.pixels.draw(FlxG.flashGfxSprite);
+		    Sprite.dirty = true;
+		}
+
+		override public function draw():void {
+		    darkness.fill(0xff000000);
+		    drawTriangle(darkness, new FlxPoint(player.x+60, player.y-100), 100); 
+		    
+		    super.draw();
+
+		}
+
+
+
 		override public function update():void
 		{
 
