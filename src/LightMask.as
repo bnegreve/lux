@@ -18,7 +18,7 @@ package
 	}
 
 
-	public function drawTriangle(Sprite:FlxSprite, Center:FlxPoint, Radius:Number = 30, LineColor:uint = 0xffffffff, LineThickness:uint = 1, FillColor:uint = 0xffffffff):void {
+	public function drawTriangle(Sprite:FlxSprite, Center:FlxPoint, target:FlxPoint, Radius:Number = 30, LineColor:uint = 0xffffffff, LineThickness:uint = 1, FillColor:uint = 0xffffffff):void {
 	    
 	    var gfx:Graphics = FlxG.flashGfx;
 	    gfx.clear();
@@ -49,10 +49,10 @@ package
 	    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
 	    star_coord[0] = 0+Center.x; //x
 	    star_coord[1] = 100+Center.y; //y
-	    star_coord[2] = 200+Center.x;
-	    star_coord[3] = 50+Center.y;
-	    star_coord[4] = 200+Center.x;
-	    star_coord[5] = 150+Center.y;
+	    star_coord[2] = FlxG.width;
+	    star_coord[3] = target.y-50;
+	    star_coord[4] = FlxG.width;
+	    star_coord[5] = target.y+50;
 	    star_coord[6] = 0+Center.x; //x
 	    star_coord[7] = 100+Center.y; //y
 
@@ -66,7 +66,8 @@ package
 
 	override public function draw():void {
 	    fill(0x99000000);
-	    drawTriangle(this, new FlxPoint(player.x+60, player.y-100), 100);
+	    
+	    drawTriangle(this, new FlxPoint(player.x+60, player.y-100),FlxG.mouse, 100);
 	    
 	    super.draw();
 
