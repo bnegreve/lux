@@ -113,31 +113,31 @@ package
 	}
 
 
-	// /* add background2 decorations */
-	// var boatPos:int = FlxG.random()* length ;
-	// placeBoat(boatPos, 200); 
+	/* add background2 decorations */
+	var boatPos:int = FlxG.random()* length ;
+	placeBoat(boatPos, 200); 
 
-	// var pos:int = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200,"arr1"); 
+	var pos:int = FlxG.random()* length ;
+	placeBackground2Object(pos, 200,"arr1"); 
 
-	// pos = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200, "arr2");
-
-
-	// pos = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200, "arr3");
+	pos = FlxG.random()* length ;
+	placeBackground2Object(pos, 200, "arr2");
 
 
-	// pos = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200, "arr4");
+	pos = FlxG.random()* length ;
+	placeBackground2Object(pos, 200, "arr3");
 
 
-	// pos = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200, "arr5");
+	pos = FlxG.random()* length ;
+	placeBackground2Object(pos, 200, "arr4");
 
 
-	// pos = FlxG.random()* length ;
-	// placeBackground2Object(pos, 200, "arr6");
+	pos = FlxG.random()* length ;
+	placeBackground2Object(pos, 200, "arr5");
+
+
+	pos = FlxG.random()* length ;
+	placeBackground2Object(pos, 200, "arr6");
 
 
 	allLayers.add(backgroundGroup2);
