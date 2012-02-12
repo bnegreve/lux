@@ -43,7 +43,7 @@ package
 			globalHeight = FlxG.height;
 			trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
 			//Set the background color to light gray (0xAARRGGBB)
-			FlxG.bgColor = 0xff111111;
+			FlxG.bgColor = 0xff333333;
 			
 			seaLayers = new SeaLayers(allLayers, globalWidth, globalHeight);
 			

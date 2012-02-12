@@ -70,7 +70,8 @@ package
 	    //	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
 
 	    if(lightOn){
-		fill(0x99000000);
+		fill(0x33000000);
+//		fill(0x88000000); //reset to this value for final game
 		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
 	    }
 	    else
