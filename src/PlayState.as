@@ -8,7 +8,8 @@ package
 
 	public class PlayState extends FlxState
 	{
-		private var player:FlxSprite;
+		private var player:Player;
+		private var cameraTarget:FlxSprite;
 		private var tilesLevel:FlxTilemap;
 		
 		private var wavesLayer1:FlxTilemap;
@@ -89,13 +90,17 @@ package
 			// FlxG.camera.follow(player);
 			// FlxG.addCamera(FlxG.camera);
 
-			player = new Player(100, 100); 
+			player = new Player(20, 100); 
 			add(player);
 			var head:Head = new Head(player); 
 			add(head);
 			
 			cam = FlxG.camera;
-			cam.follow(player);
+
+			cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
+			add(cameraTarget); 
+			cameraTarget.velocity.x = 140; 
+			cam.follow(cameraTarget);
 			cam.setBounds(0, 0, tilesLevel.width, FlxG.height);
 
 			// Display mouse pointer
@@ -210,6 +215,10 @@ package
 			if(player.y > FlxG.height)
 			{
 				FlxG.resetState();
+			}
+
+			if(player.isAlive == false){
+			    cameraTarget.velocity.x = 0; 
 			}
 		}
 		

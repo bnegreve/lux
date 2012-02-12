@@ -6,10 +6,12 @@ package{
 
        private static var XPOS:int = 140;
        private static var FLOOR:int = 300; 
-       private var jumping:Boolean = true; 
+       public var isAlive:Boolean = true;
+       
        [Embed(source="../img/playeranime.png")] private var ImgPlayer:Class;
 
        public function Player(xpos:int, ypos:int){
+	   isAlive = true; 
 	   super(xpos, ypos);
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
@@ -22,9 +24,6 @@ package{
 	   maxVelocity.x = 80;
 	   maxVelocity.y = 200;
 	   acceleration.y = 200;
-
-	   
-
 
 	   /* hortizontal friction due to his shooes drags him backward*/
 	   drag.x = 30;
@@ -85,7 +84,8 @@ package{
 	       }
 
 	       //its an autorunner after all
-	   velocity.x = 140; 
+	   velocity.x = 200; 
+	   checkBoundaries();
        }
    
 
@@ -94,7 +94,21 @@ package{
 //	   return y >= FLOOR;
        }
 
+       protected function checkBoundaries():void{
+	   var p:FlxPoint =  getScreenXY();
+	   trace("POS X POS Y"+ p.x + " " + p.y + " "+ x +" "+y);
+	   if(p.x<3){
+	       kill();
+	   }
+	   
+       }
 
+       override public function kill():void{
+	       velocity.x = 0; 
+	       velocity.y = 0; 
+	       isAlive = false;
+	       play("jumping");
+       }
 
        protected function jump(jumpVelocity:int):void{
 	   /* no horiztontal friction when he flies */
