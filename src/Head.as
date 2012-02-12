@@ -30,7 +30,7 @@ package{
 	   var headPos:FlxPoint = new FlxPoint(x, y);
 
 	   var angle:int = FlxU.getAngle(headPos, FlxG.mouse);
-	   trace("ANGLE = "+angle); 
+//	   trace("ANGLE = "+angle); 
 	   if(angle < 37)
 	   play("h1"); 
 	   else if(angle < 52)

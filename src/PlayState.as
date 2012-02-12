@@ -201,7 +201,7 @@ package
 			// the game's view. 
 			// FlxU.setWorldBounds(-(FlxG.scroll.x), -(FlxG.scroll.y), FlxG.width, FlxG.height);
 			
-			trace("CAM scrolling factor "+ FlxG.camera.scroll.x);
+
 			//Finally, bump the player up against the level
 			FlxG.collide(tilesLevel,player);
 			FlxG.collide(structLayer,player);
