@@ -18,12 +18,16 @@ package
 		// The layers FlxGroup is going to be comprised of one FlxGroup for each layer.
 		public var allLayers:FlxGroup;
 
-		private var darkness:FlxSprite;
-		private	var cam:FlxCamera; 
+		// This is an Object that stores some information about each of our props. See below for
+		// details.
+		private var props:Object;		
 
+		private	var cam:FlxCamera; 
+		private var lightMask:LightMask;
+
+ 
 		[Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
 		[Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
-
 		[Embed(source="../maps/struct_props.json",       mimeType="application/octet-stream")] private var PropData:Class;
 
 		[Embed(source="../img/myTiles.png")] private var myTyles:Class;
@@ -39,13 +43,6 @@ package
 		{
 
 			allLayers = new FlxGroup();		 
-		    darkness = new FlxSprite(0,0);
-		    darkness.makeGraphic(FlxG.width, FlxG.height, 0xff000000);
-//		    darkness.loadGraphic(ImgLightMask);
-		    darkness.scrollFactor.x = darkness.scrollFactor.y = 0;
-		    darkness.blend = "multiply";
-
-		    add(darkness);
 
 			//Set the background color to light gray (0xAARRGGBB)
 			FlxG.bgColor = 0xff444444;
@@ -55,6 +52,7 @@ package
 				"struct_down": { image: struct_down, width: 100, height: 20},
 				"struct_straight": { image: struct_straight, width: 100, height: 20}
 			};
+
 
 			loadMainMap(structProps);
 			var wavesProps:Array = new Array (
@@ -92,9 +90,10 @@ package
 
 			player = new Player(100, 100); 
 			add(player);
-
+			var head:Head = new Head(player); 
+			add(head); 
 			
-			cam = new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
+			cam = FlxG.camera;//new FlxCamera(0,0, FlxG.width, FlxG.height); // we put the first one in the top left corner
 			cam.follow(player);
 			// this sets the limits of where the camera goes so that it doesn't show what's outside of the tilemap
 			cam.setBounds(0,0,tilesLevel.width, tilesLevel.height);
@@ -105,6 +104,10 @@ package
 
 			// Add the layers to the scene.
 			add(allLayers);
+
+			lightMask = new LightMask(head); 
+			add(lightMask); 
+
 
 		}
 
@@ -180,66 +183,11 @@ package
 			    sprite.solid = false;
 			    curWaveLayer.add(sprite);
 			  }
-			allLayers.add(curWaveLayer);
+			  allLayers.add(curWaveLayer);
 			}
 //			curWaveLayer.scrollFactor = 0.5;
 		}
 		
-		public function drawTriangle(Sprite:FlxSprite, Center:FlxPoint, Radius:Number = 30, LineColor:uint = 0xffffffff, LineThickness:uint = 1, FillColor:uint = 0xffffffff):void {
-		    
-		    var gfx:Graphics = FlxG.flashGfx;
-		    gfx.clear();
-		    
-		    // Line alpha
-		    var alphaComponent:Number = Number((LineColor >> 24) & 0xFF) / 255;
-		    if(alphaComponent <= 0)
-		    alphaComponent = 1;
-		    
-		    gfx.lineStyle(LineThickness, LineColor, alphaComponent);
-		    
-		    // Fill alpha
-		    alphaComponent = Number((FillColor >> 24) & 0xFF) / 255;
-		    if(alphaComponent <= 0)
-		    alphaComponent = 1;
-		    
-		    gfx.beginFill(FillColor & 0x00ffffff, alphaComponent);
-		    
-		    //	    gfx.drawCircle(Center.x, Center.y, Radius);
-
-		    var star_commands:Vector.<int> = new Vector.<int>(4, true);
-		    star_commands[0] = 1;
-		    star_commands[1] = 2;
-		    star_commands[2] = 2;
-		    star_commands[3] = 2;
-		    // star_commands[4] = 2;
-
-		    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
-		    star_coord[0] = 0+Center.x; //x
-		    star_coord[1] = 100+Center.y; //y
-		    star_coord[2] = 200+Center.x;
-		    star_coord[3] = 50+Center.y;
-		    star_coord[4] = 200+Center.x;
-		    star_coord[5] = 150+Center.y;
-		    star_coord[6] = 0+Center.x; //x
-		    star_coord[7] = 100+Center.y; //y
-
-		    gfx.drawPath(star_commands, star_coord);
-
-		    gfx.endFill();
-		    
-		    Sprite.pixels.draw(FlxG.flashGfxSprite);
-		    Sprite.dirty = true;
-		}
-
-		override public function draw():void {
-		    darkness.fill(0xff000000);
-		    drawTriangle(darkness, new FlxPoint(player.x+60, player.y-100), 100); 
-		    
-		    super.draw();
-
-		}
-
-
 
 		override public function update():void
 		{
@@ -254,6 +202,7 @@ package
 			// the game's view. 
 			// FlxU.setWorldBounds(-(FlxG.scroll.x), -(FlxG.scroll.y), FlxG.width, FlxG.height);
 			
+			trace("CAM scrolling factor "+ FlxG.camera.scroll.x);
 			//Finally, bump the player up against the level
 			FlxG.collide(tilesLevel,player);
 			FlxG.collide(structLayer,player);
