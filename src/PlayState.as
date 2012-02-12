@@ -246,6 +246,13 @@ package
 			//Updates all the objects appropriately
 			super.update();
 
+			// Flixel's collision detection is great, but for
+			// large-area games (platformers, etc.) it's
+			// impractical to hit test the whole area of the game
+			// in every frame. Here is how to check for collisions
+			// in ONLY the area of the screen that is currently in
+			// the game's view. 
+			// FlxU.setWorldBounds(-(FlxG.scroll.x), -(FlxG.scroll.y), FlxG.width, FlxG.height);
 			
 			//Finally, bump the player up against the level
 			FlxG.collide(tilesLevel,player);
