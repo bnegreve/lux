@@ -99,10 +99,10 @@ package
 
 
 	var nextHeight:int = 200;
-	for(var i:int = 0; i < length; ){
-	    
-	    nextHeight += FlxG.random()*200 - 100;
-
+	var i:int = 0
+	
+	i+= placeLongPass(i, nextHeight);
+	while(i < length){
 	    if(FlxG.random()<0.6){
 	    i+= placeLongPass(i, nextHeight);
 	}else
@@ -110,6 +110,7 @@ package
 
 	    /* generate a random gap */
 	    i+= FlxG.random()*300;
+	    nextHeight += FlxG.random()*200 - 100;
 	}
 
 

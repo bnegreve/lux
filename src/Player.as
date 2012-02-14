@@ -7,11 +7,18 @@ package{
        private static var XPOS:int = 140;
        private static var FLOOR:int = 300; 
        public var isAlive:Boolean = true;
+       public var maxJump:int;
+       public var nbJump:int;
+       public var timeCount:int;
        
        [Embed(source="../img/playeranime.png")] private var ImgPlayer:Class;
 
        public function Player(xpos:int, ypos:int){
-	   isAlive = true; 
+	   isAlive = true;
+	   maxJump = 2;
+	   nbJump = maxJump - 1; 
+
+	   timeCount= FlxG.elapsed;
 	   super(xpos, ypos);
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
@@ -49,6 +56,7 @@ package{
 
 	    if(isTouchingTheGround()){
 	        trace("TOUCHING");
+		nbJump = maxJump; 
 		play("run");
 	       // if(velocity.y > 2){
 	       // 	   /* hit the ground with velocity -> bounce */
@@ -68,8 +76,8 @@ package{
 	       }
 
 	       /* jump */
-	       if(FlxG.keys.UP){
-	       	   jump(maxVelocity.y); 
+	       if(FlxG.keys.justPressed("UP")){
+	       	       jump(maxVelocity.y);
 	       }
 
 	       /* horizontal displacements */
@@ -96,7 +104,7 @@ package{
 
        protected function checkBoundaries():void{
 	   var p:FlxPoint =  getScreenXY();
-	   trace("POS X POS Y"+ p.x + " " + p.y + " "+ x +" "+y);
+//	   trace("POS X POS Y"+ p.x + " " + p.y + " "+ x +" "+y);
 	   if(p.x<3){
 	       kill();
 	   }
@@ -112,11 +120,13 @@ package{
 
        protected function jump(jumpVelocity:int):void{
 	   /* no horiztontal friction when he flies */
-	   drag.x = 0; 
-	   acceleration.y = 400;
-	   velocity.y = -jumpVelocity*0.6; 
-	   play("startjump");
-	   trace("jump "+jumpVelocity+" velocity "+velocity.y+" acceleration "+acceleration.y);
+	   if(nbJump-- > 0){
+	       drag.x = 0;
+	       acceleration.y = 400;
+	       velocity.y = -jumpVelocity*0.6;
+	       play("startjump");
+	       trace("jump "+nbJump+" "+jumpVelocity+" velocity "+velocity.y+" acceleration "+acceleration.y);
+	   }
        }
        
    }

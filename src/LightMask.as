@@ -78,7 +78,7 @@ package
 	    }
 	    else if(lightOn){
 //		fill(0x33000000);
-		fill(0xef000000); //reset to this value for final game
+		fill(0xff000000); //reset to this value for final game
 		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
 	    }
 	    else

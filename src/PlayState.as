@@ -119,7 +119,7 @@ package
 			// FlxU.setWorldBounds(-(FlxG.scroll.x), -(FlxG.scroll.y), FlxG.width, FlxG.height);
 			
 
-			trace("player x: "+player.x+" y:"+player.y);
+//			trace("player x: "+player.x+" y:"+player.y);
 			//Finally, bump the player up against the level
 			FlxG.collide(platformLevel.tilesLevel,player);
 			FlxG.collide(platformLevel.collideGroup,player);
