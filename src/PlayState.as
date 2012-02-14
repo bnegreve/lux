@@ -123,13 +123,15 @@ package
 			//Finally, bump the player up against the level
 			FlxG.collide(platformLevel.tilesLevel,player);
 			FlxG.collide(platformLevel.collideGroup,player);
+
+ 			if(gameState != 0 && FlxG.random()>0.98)
+			lightMask.flash=true;
 			
 			//Check for player lose conditions
 			if(player.y > FlxG.height)
 			{
 				FlxG.resetState();
 			}
-
 			if(player.isAlive == false && gameState == 1){
 			    gameOver();
 			}

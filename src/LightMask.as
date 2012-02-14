@@ -9,11 +9,13 @@ package
     public class LightMask extends FlxSprite{
 	private var player:FlxSprite;
 	public var lightOn:Boolean;
+	public var flash:Boolean;
 	public function LightMask(player:FlxSprite){
 	    this.player = player; 
 	    super(0,0);
 	    makeGraphic(FlxG.width, FlxG.height, 0xff000000);
 	    lightOn = true;
+	    flash = false;
 	    scrollFactor.x = scrollFactor.y = 0;
 	    blend = "multiply";
 	}
@@ -69,7 +71,12 @@ package
 
 	    //	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
 
-	    if(lightOn){
+	    if(flash){
+		//TODO add timer
+	    	flash=false; 
+	    	fill(0x00ffffff);
+	    }
+	    else if(lightOn){
 //		fill(0x33000000);
 		fill(0xef000000); //reset to this value for final game
 		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
