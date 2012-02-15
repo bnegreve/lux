@@ -29,7 +29,7 @@ package{
 	   addAnimation("endjump",[12,13,14,0],16,false);
 	   addAnimation("dies",[0],16, false); 
 	   play("run");
-	   maxVelocity.x = 160;
+	   maxVelocity.x = 260;
 	   maxVelocity.y = 400;
 	   acceleration.y = 400;
 	   acceleration.x = 0;
