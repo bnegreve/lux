@@ -31,111 +31,124 @@ package
 		override public function create():void
 		{
 
-		    gameState=1;/* game is running */
-			allLayers = new FlxGroup();		 
+		    gameState=0;/* game is running */
+		    allLayers = new FlxGroup();
+
+		    // Differents must eb added in order, from background to foreground
+
+		    platformLevel = new PlatformLevel(allLayers);
+		    globalWidth = platformLevel.width;
+		    globalHeight = FlxG.height;
+		    trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
+		    //Set the background color to light gray (0xAARRGGBB)
+		    FlxG.bgColor = 0xff333333;
+		    
+		    seaLayers = new SeaLayers(allLayers, globalWidth, globalHeight);
+		    
+		    /* Flixel only checks for collisions within a fixed
+		    * size to save on performance (smaller area to check
+		    * for collisions = faster). Change the world bounds to
+		    * tell flixel the area within which to check for
+		    * collisions.  As long as the level is reasonably
+		    * sized, this can easily be set once at the beginning
+		    * of the level and forgotten.  If you have larger
+		    * levels and are seeing a drop in performance, you can
+		    * keep updating the world bounds to the visible area
+		    * and freezing objects out of view. Updating the world
+		    * bounds itself is a cheap operation.  */
+		    FlxG.worldBounds = new FlxRect(0, 0, globalWidth, globalHeight);
+		    
+		    trace("width: "+ globalWidth);
+		    trace("height: "+globalHeight);
+		    
+		    /* The camera won't travel beyond the limits defined
+		    * here. Useful so that it won't travel to places the
+		    * player isn't supposed to see (for example beyond the
+		    * edge of the level in the demo). */
+		    
+		    
+		    cam = FlxG.camera;
+
+
+		    cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
+		    add(cameraTarget);
+		    cameraTarget.velocity.x = 275;
+		    cam.follow(cameraTarget);
+		    cam.setBounds(0, 0, globalWidth, globalHeight);
+
+
+		    // Display mouse pointer
+		    FlxG.mouse.show();
+
+		    // Add the layers to the scene.
+		    add(allLayers);
 
 
 
-			// Differents must eb added in order, from background to foreground
-
-			platformLevel = new PlatformLevel(allLayers);
-			globalWidth = platformLevel.width;
-			globalHeight = FlxG.height;
-			trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
-			//Set the background color to light gray (0xAARRGGBB)
-			FlxG.bgColor = 0xff333333;
-			
-			seaLayers = new SeaLayers(allLayers, globalWidth, globalHeight);
-			
-			/* Flixel only checks for collisions within a fixed
-			 * size to save on performance (smaller area to check
-			 * for collisions = faster). Change the world bounds to
-			 * tell flixel the area within which to check for
-			 * collisions.  As long as the level is reasonably
-			 * sized, this can easily be set once at the beginning
-			 * of the level and forgotten.  If you have larger
-			 * levels and are seeing a drop in performance, you can
-			 * keep updating the world bounds to the visible area
-			 * and freezing objects out of view. Updating the world
-			 * bounds itself is a cheap operation.  */
-			FlxG.worldBounds = new FlxRect(0, 0, globalWidth, globalHeight);
-			
-			trace("width: "+ globalWidth);
-			trace("height: "+globalHeight);
-			
-			/* The camera won't travel beyond the limits defined
-			 * here. Useful so that it won't travel to places the
-			 * player isn't supposed to see (for example beyond the
-			 * edge of the level in the demo). */
-	
-			
-			cam = FlxG.camera;
+		    // FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
+		    // FlxG.camera.follow(player);
+		    // FlxG.addCamera(FlxG.camera);
 
 
-			cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
-			add(cameraTarget); 
-			cameraTarget.velocity.x = 275; 
-			cam.follow(cameraTarget);
-			cam.setBounds(0, 0, globalWidth, globalHeight);
+		    player = new Player(20, 100);
+		    player.stop();
+		    var head:Head = new Head(player);
+		    lightMask = new LightMask(head);
 
+		    add(lightMask);
+		    add(player);
+		    add(head);
 
-			// Display mouse pointer
-			FlxG.mouse.show();
-
-			// Add the layers to the scene.
-			add(allLayers);
-
-
-
-			// FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
-			// FlxG.camera.follow(player);
-			// FlxG.addCamera(FlxG.camera);
-
-
-			player = new Player(20, 100); 
-			var head:Head = new Head(player); 
-			lightMask = new LightMask(head); 
-
-			add(lightMask); 
-			add(player);
-			add(head);
-
+		    add(new FlxText(70,100,200,"Click to start"))
 
 		}
 
+		public function start():void{
+		    player.run();
+		    gameState=1;
+		    cameraTarget.velocity.x=player.maxVelocity.x;
+		}
 
+		public function reset():void{
+		    gameState=0;
+		    FlxG.resetState();
+		}
+
+
+		protected function checkBoundaries():void{
+		    if(player.x - cam.scroll.x <3 || player.y > FlxG.height){
+			player.kill();
+			reset();
+		    }
+		}
+       
 		override public function update():void
 		{
-			//Updates all the objects appropriately
+
 			super.update();
-
-
-			// Flixel's collision detection is great, but for
-			// large-area games (platformers, etc.) it's
-			// impractical to hit test the whole area of the game
-			// in every frame. Here is how to check for collisions
-			// in ONLY the area of the screen that is currently in
-			// the game's view. 
-			// FlxU.setWorldBounds(-(FlxG.scroll.x), -(FlxG.scroll.y), FlxG.width, FlxG.height);
 			
+			if(gameState == 1){
+			    checkBoundaries();
+			    
+			    FlxG.collide(platformLevel.tilesLevel,player);
+			    FlxG.collide(platformLevel.collideGroup,player);
 
-//			trace("player x: "+player.x+" y:"+player.y);
-			//Finally, bump the player up against the level
-			FlxG.collide(platformLevel.tilesLevel,player);
-			FlxG.collide(platformLevel.collideGroup,player);
+ 			    if(FlxG.random()>0.98)
+			    lightMask.flash=true;
 
- 			if(gameState != 0 && FlxG.random()>0.98)
-			lightMask.flash=true;
-			
-			//Check for player lose conditions
-			if(player.y > FlxG.height)
-			{
-				FlxG.resetState();
+
 			}
-			if(player.isAlive == false && gameState == 1){
-			    gameOver();
+			else{
+			    if(gameState == 0){
+				player.stop();
+				cameraTarget.velocity.x=0;
+				if(FlxG.mouse.justPressed()){
+				    start(); 
+				    add(new FlxText(FlxG.width/2+cam.scroll.x+40,205,200,"Click to jump"))
+				}
+			    }
 			}
-		}
+		    }
 
 
 		public function gameOver():void{

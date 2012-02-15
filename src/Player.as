@@ -10,7 +10,7 @@ package{
        public var maxJump:int;
        public var nbJump:int;
        public var timeCount:int;
-       
+       private var running:Boolean; 
        [Embed(source="../img/playeranime.png")] private var ImgPlayer:Class;
 
        public function Player(xpos:int, ypos:int){
@@ -27,18 +27,41 @@ package{
 	   addAnimation("startjump",[9, 10, 11],16,false);
 	   addAnimation("jumping",[11],0);
 	   addAnimation("endjump",[12,13,14,0],16,false);
+	   addAnimation("dies",[0],16, false); 
 	   play("run");
 	   maxVelocity.x = 160;
 	   maxVelocity.y = 400;
 	   acceleration.y = 400;
-
-	   /* hortizontal friction due to his shooes drags him backward*/
-	   drag.x = 30;
+	   acceleration.x = 0;
+	   drag.x = 0;
+	   running = false; 
 
        }
 
+       public function run():void{
+	   acceleration.y = 400;
+	   running = true;
+	   play("run");
+       }
+
+       public function stop():void{
+	   running = false; 
+	   velocity.x = 0;
+	   velocity.y = 0;
+	   acceleration.y = 0;
+	   play("dies");
+       }
+
        override public function update():void{
-	   // trace("player dynamic "+y+" "+velocity.y+", "+acceleration.y);
+	   
+       	   if(running){
+       	       //its an autorunner after all
+	       velocity.x = maxVelocity.x;
+	   }else{
+       	       velocity.x = 0;
+	   }
+	   
+	   trace("player dynamic "+y+" "+velocity.x+", "+acceleration.x);
 	   // drag.x = 30;
 	   
 	   // if(FlxG.keys.UP){
@@ -46,18 +69,18 @@ package{
 	   // }
 
 	   // if(FlxG.keys.LEFT){
-	   //     velocity.x = -140; 
+	   //     velocity.x = -140;
 	   // }
 	   // if(FlxG.keys.RIGHT){
-	   //     velocity.x = 140; 
+	   //     velocity.x = 140;
 	   // }
 	   
 	   
 
-	    if(isTouchingTheGround()){
-	        trace("TOUCHING");
-		nbJump = maxJump; 
-		play("run");
+	   if(isTouchingTheGround()){
+	       trace("TOUCHING");
+	       nbJump = maxJump;
+	       play("run");
 	       // if(velocity.y > 2){
 	       // 	   /* hit the ground with velocity -> bounce */
 	       // 	       trace("natural bounce value "+0.5*velocity.y);
@@ -69,53 +92,41 @@ package{
 	       // 	   else{
 	       // 	       play("run");
 	       // 	       velocity.y = 0;
-	       // 	       acceleration.y = 0; 
+	       // 	       acceleration.y = 0;
 	       // 	       /* reset horizontal friction */
 	       // 	       drag.x = 30;
 	       // 	   }
-	       }
+	   }
 
-	       /* jump */
-	       if(FlxG.keys.justPressed("UP")){
-	       	       jump(maxVelocity.y);
-	       }
+	   /* jump */
+	   if(running ==true && FlxG.mouse.justPressed()){
+	       jump(maxVelocity.y);
+	   }
 
-	       /* horizontal displacements */
-	       if(FlxG.keys.RIGHT){
-	       	   velocity.x = 140;
-	       }
-	       if(FlxG.keys.LEFT){
-	       	   velocity.x = -140;
-	       }
-	       if(FlxG.keys.RIGHT && FlxG.keys.LEFT){
-	       	   velocity.x = 0;
-	       }
+	   // /* horizontal displacements */
+	   // if(FlxG.keys.RIGHT){
+	   // 	   velocity.x = 140;
+	   // }
+	   // if(FlxG.keys.LEFT){
+	   // 	   velocity.x = -140;
+	   // }
+	   // if(FlxG.keys.RIGHT && FlxG.keys.LEFT){
+	   // 	   velocity.x = 0;
+	   // }
 
-	       //its an autorunner after all
-	   velocity.x = 400; 
-	   checkBoundaries();
+
        }
-   
+       
 
        protected function isTouchingTheGround():Boolean{
 	  return isTouching(DOWN);
 //	   return y >= FLOOR;
        }
 
-       protected function checkBoundaries():void{
-	   var p:FlxPoint =  getScreenXY();
-//	   trace("POS X POS Y"+ p.x + " " + p.y + " "+ x +" "+y);
-	   if(p.x<3){
-	       kill();
-	   }
-	   
-       }
-
        override public function kill():void{
-	       velocity.x = 0; 
-	       velocity.y = 0; 
-	       isAlive = false;
-	       play("jumping");
+	   stop();
+	   isAlive=false;
+	   play("dies");
        }
 
        protected function jump(jumpVelocity:int):void{
