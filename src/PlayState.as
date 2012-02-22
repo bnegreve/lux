@@ -134,7 +134,7 @@ package
 			    FlxG.collide(platformLevel.collideGroup,player);
 
  			    if(FlxG.random()>0.98)
-			    lightMask.flash=true;
+			    lightMask.fireFlash();
 
 
 			}
