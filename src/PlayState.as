@@ -133,7 +133,7 @@ package
 			    FlxG.collide(platformLevel.tilesLevel,player);
 			    FlxG.collide(platformLevel.collideGroup,player);
 
- 			    if(FlxG.random()>0.98)
+ 			    if(FlxG.random()>0.995)
 			    lightMask.fireFlash();
 
 

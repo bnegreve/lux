@@ -76,6 +76,7 @@ package
 	override public function draw():void {
 
 	    //	    trace(" MOUSE X MOUSE Y head X head Y"+FlxG.mouse.x+" "+FlxG.mouse.y+" "+player.x+" "+player.y);
+	    fill(0xff000000);
 
 
 	    if(flash != 0){
@@ -89,20 +90,18 @@ package
 		    var flashColor:int = 0x0;
 		    blend = "multiply";
 		    //		    sets  alpha component
-		    flashColor=((((FLASH_DEFAULT_LENGTH-flash))/FLASH_DEFAULT_LENGTH)*256.0)<<24;
-
-	    	    fill(flashColor);
+		    flashColor=((((FLASH_DEFAULT_LENGTH-flash))/FLASH_DEFAULT_LENGTH)*256.0)<<24;	    	    fill(flashColor);
 		}
 		flash--;
 	    }
-	    else{
-		if(lightOn){
-	    	    fill(0xff000000);
-	    	    drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
-		}
-		else
-		fill(0xbb000000);
+
+	    /* draw the light*/
+	    if(lightOn){
+	    	drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
 	    }
+	    else
+	    fill(0xbb000000);
+
 	    super.draw();
 
 	}
