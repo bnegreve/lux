@@ -23,15 +23,15 @@ package{
 	   trace("creating player at "+x+", "+y);
 	   loadGraphic(ImgPlayer,true,false, 46, 38,false);
 	   
-	   addAnimation("run",[0,1,2,3,4,5,6,7,8],16);
+	   addAnimation("run",[0,1,2,3,4,5,6,7,8],24);
 	   addAnimation("startjump",[9, 10, 11],16,false);
 	   addAnimation("jumping",[11],0);
 	   addAnimation("endjump",[12,13,14,0],16,false);
 	   addAnimation("dies",[0],16, false); 
 	   play("run");
-	   maxVelocity.x = 260;
-	   maxVelocity.y = 400;
-	   acceleration.y = 400;
+	   maxVelocity.x = 460;
+	   maxVelocity.y = 800;
+	   acceleration.y = 8000;
 	   acceleration.x = 0;
 	   drag.x = 0;
 	   running = false; 
@@ -100,7 +100,7 @@ package{
 
 	   /* jump */
 	   if(running ==true && FlxG.mouse.justPressed()){
-	       jump(maxVelocity.y);
+	       jump(400);
 	   }
 
 	   // /* horizontal displacements */
