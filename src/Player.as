@@ -6,6 +6,7 @@ package{
 
        private static var XPOS:int = 140;
        private static var FLOOR:int = 300; 
+       private static const DEFAULT_ACC:int = 800; 
        public var isAlive:Boolean = true;
        public var maxJump:int;
        public var nbJump:int;
@@ -31,7 +32,7 @@ package{
 	   play("run");
 	   maxVelocity.x = 460;
 	   maxVelocity.y = 800;
-	   acceleration.y = 8000;
+	   acceleration.y = DEFAULT_ACC;
 	   acceleration.x = 0;
 	   drag.x = 0;
 	   running = false; 
@@ -100,7 +101,7 @@ package{
 
 	   /* jump */
 	   if(running ==true && FlxG.mouse.justPressed()){
-	       jump(400);
+	       jump(600);
 	   }
 
 	   // /* horizontal displacements */
@@ -133,7 +134,7 @@ package{
 	   /* no horiztontal friction when he flies */
 	   if(nbJump-- > 0){
 	       drag.x = 0;
-	       acceleration.y = 400;
+	       acceleration.y = DEFAULT_ACC;
 	       velocity.y = -jumpVelocity*0.6;
 	       play("startjump");
 	       trace("jump "+nbJump+" "+jumpVelocity+" velocity "+velocity.y+" acceleration "+acceleration.y);
