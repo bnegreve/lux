@@ -24,8 +24,13 @@ package
 		private	var cam:FlxCamera; 
 		private var lightMask:LightMask;
 		private var gameState:int; 
- 
 		
+		public function screenToWorldCoord(screen:FlxPoint):FlxPoint{
+		    var worldPoint:FlxPoint = new FlxPoint;
+		    worldPoint.x = screen.x + cam.scroll.x;
+		    worldPoint.y = screen.y + cam.scroll.y;
+		    return worldPoint; 
+		}
 
 
 		override public function create():void
@@ -38,7 +43,7 @@ package
 
 		    platformLevel = new PlatformLevel(allLayers);
 		    globalWidth = platformLevel.width;
-		    globalHeight = FlxG.height;
+		    globalHeight = platformLevel.height;
 		    trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
 		    //Set the background color to light gray (0xAARRGGBB)
 		    FlxG.bgColor = 0xff333333;
@@ -71,6 +76,7 @@ package
 
 
 		    cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
+//		    cameraTarget = new FlxSprite(FlxG.width/2, globalHeight - FlxG.height/2);
 		    add(cameraTarget);
 		    cameraTarget.velocity.x = 275;
 		    cam.follow(cameraTarget);
@@ -89,8 +95,10 @@ package
 		    // FlxG.camera.follow(player);
 		    // FlxG.addCamera(FlxG.camera);
 
+		    var worldPos:FlxPoint = screenToWorldCoord(new FlxPoint(100, FlxG.height/2));
 
-		    player = new Player(20, 100);
+		    player = new Player(20, globalHeight - 2*(FlxG.height/3));
+
 		    player.stop();
 		    var head:Head = new Head(player);
 		    lightMask = new LightMask(head);
@@ -99,7 +107,8 @@ package
 		    add(player);
 		    add(head);
 
-		    add(new FlxText(70,100,200,"Click to start"))
+//		    worldPos = screenToWorldCoord(new FlxPoint(70, 100));
+		    add(new FlxText(30, 100,200,"Click to start"))
 
 		}
 

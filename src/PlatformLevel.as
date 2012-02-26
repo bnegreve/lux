@@ -13,6 +13,7 @@ package
     public var width:Number;
     public var height:Number;
     public static const LEVEL_LENGTH:int = 10000; 
+    public static const LEVEL_HEIGHT:int = 480; 
     [Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
     [Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
     [Embed(source="../maps/struct_props.json",       mimeType="application/octet-stream")] private var PropData:Class;
@@ -64,6 +65,7 @@ package
       loadMainMap(allLayers);
       generateLevel(allLayers)
       width = LEVEL_LENGTH; //tilesLevel.width;
+      height = LEVEL_HEIGHT; 
     }
 
 
