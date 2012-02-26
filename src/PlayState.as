@@ -6,6 +6,7 @@ package
     import flash.display.*;
 
 
+
 	public class PlayState extends FlxState
 	{
 
@@ -25,11 +26,11 @@ package
 		private var lightMask:LightMask;
 		private var gameState:int; 
 		
-		public function screenToWorldCoord(screen:FlxPoint):FlxPoint{
+		public static  function screenToWorldCoord(screen:FlxPoint):FlxPoint{
 		    var worldPoint:FlxPoint = new FlxPoint;
-		    worldPoint.x = screen.x + cam.scroll.x;
-		    worldPoint.y = screen.y + cam.scroll.y;
-		    return worldPoint; 
+		    worldPoint.x = screen.x + FlxG.camera.scroll.x;
+		    worldPoint.y = screen.y + FlxG.camera.scroll.y;
+		    return worldPoint;
 		}
 
 

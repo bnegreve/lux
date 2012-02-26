@@ -22,7 +22,7 @@ package
 	}
 
 
-	public function drawTriangle(Sprite:FlxSprite, Center:FlxPoint, target:FlxPoint, Radius:Number = 30, LineColor:uint = 0xffffffff, LineThickness:uint = 1, FillColor:uint = 0xffffffff):void {
+	public function drawTriangle(Sprite:FlxSprite, start:FlxPoint, target:FlxPoint, LineColor:uint = 0xffffffff, LineThickness:uint = 0, FillColor:uint = 0xffffffff):void {
 	    
 	    var gfx:Graphics = FlxG.flashGfx;
 	    gfx.clear();
@@ -41,7 +41,7 @@ package
 	    
 	    gfx.beginFill(FillColor & 0x00ffffff, alphaComponent);
 	    
-	    //	    gfx.drawCircle(Center.x, Center.y, Radius);
+	    //	    gfx.drawCircle(start.x, start.y, Radius);
 
 	    var star_commands:Vector.<int> = new Vector.<int>(4, true);
 	    star_commands[0] = 1;
@@ -51,14 +51,14 @@ package
 	    // star_commands[4] = 2;
 
 	    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
-	    star_coord[0] = 0+Center.x; //x
-	    star_coord[1] = 100+Center.y; //y
+	    star_coord[0] = 0+start.x; //x
+	    star_coord[1] = start.y; //y
 	    star_coord[2] = FlxG.width;
 	    star_coord[3] = target.y-100;
 	    star_coord[4] = FlxG.width;
 	    star_coord[5] = target.y+100;
-	    star_coord[6] = 0+Center.x; //x
-	    star_coord[7] = 100+Center.y; //y
+	    star_coord[6] = 0+start.x; //x
+	    star_coord[7] = start.y; //y
 
 	    gfx.drawPath(star_commands, star_coord);
 
@@ -97,7 +97,7 @@ package
 
 	    /* draw the light*/
 	    if(lightOn){
-	    	drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-100),FlxG.mouse, 100);
+		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-FlxG.camera.scroll.y), FlxG.mouse);
 	    }
 	    else
 	    fill(0xbb000000);
