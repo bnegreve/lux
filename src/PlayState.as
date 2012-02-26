@@ -98,7 +98,7 @@ package
 
 		    var worldPos:FlxPoint = screenToWorldCoord(new FlxPoint(100, FlxG.height/2));
 
-		    player = new Player(20, globalHeight - 2*(FlxG.height/3));
+		    player = new Player(20, globalHeight - 2*(FlxG.height/3)-140);
 
 		    player.stop();
 		    var head:Head = new Head(player);
@@ -137,6 +137,8 @@ package
 
 			super.update();
 			
+			cameraTarget.y=player.y;
+
 			if(gameState == 1){
 			    checkBoundaries();
 			    
