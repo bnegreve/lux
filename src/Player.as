@@ -62,7 +62,7 @@ package{
        	       velocity.x = 0;
 	   }
 	   
-	   trace("player dynamic "+y+" "+velocity.x+", "+acceleration.x);
+	   //trace("player dynamic "+y+" "+velocity.x+", "+acceleration.x);
 	   // drag.x = 30;
 	   
 	   // if(FlxG.keys.UP){

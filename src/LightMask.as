@@ -3,7 +3,10 @@ package
     import org.flixel.*;
     //	import com.adobe.serialization.json.*;
     import flash.display.Sprite;
+    import flash.display.Graphics;
+
     import flash.display.*;
+    import flash.geom.*;
     
     
     public class LightMask extends FlxSprite{
@@ -19,6 +22,13 @@ package
 	    flash = 0;
 	    scrollFactor.x = scrollFactor.y = 0;
 	    blend = "multiply";
+	}
+
+	/**
+	 * Find the angle of a segment from (x1, y1) -> (x2, y2 )
+	 */
+	public static function angleBetween(p1:FlxPoint, p2: FlxPoint):Number {
+	  return Math.atan2( p2.y - p1.y, p2.x - p1.x );
 	}
 
 
@@ -50,13 +60,30 @@ package
 	    star_commands[3] = 2;
 	    // star_commands[4] = 2;
 
+	    var playerMouseAngle:Number = angleBetween(start, target);
+	    var translatePoint:Point = Point.polar(FlxG.width + 200, playerMouseAngle);
+	    var translatePoint1:Point = Point.polar(100, playerMouseAngle + 1.6);
+	    var translatePoint2:Point = Point.polar(100, playerMouseAngle - 1.6);
+	    var newTarget:FlxPoint = new FlxPoint();
+	    newTarget.copyFrom(start);
+	    newTarget.x += translatePoint.x;
+	    newTarget.y += translatePoint.y;
+	    var newTarget1:FlxPoint = new FlxPoint();
+	    newTarget1.copyFrom(newTarget);
+	    newTarget1.x += translatePoint1.x;
+	    newTarget1.y += translatePoint1.y;
+	    var newTarget2:FlxPoint = new FlxPoint();
+	    newTarget2.copyFrom(newTarget);
+	    newTarget2.x += translatePoint2.x;
+	    newTarget2.y += translatePoint2.y;
+
 	    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
 	    star_coord[0] = 0+start.x; //x
 	    star_coord[1] = start.y; //y
-	    star_coord[2] = FlxG.width;
-	    star_coord[3] = target.y-100;
-	    star_coord[4] = FlxG.width;
-	    star_coord[5] = target.y+100;
+	    star_coord[2] = newTarget1.x;
+	    star_coord[3] = newTarget1.y;
+	    star_coord[4] = newTarget2.x;
+	    star_coord[5] = newTarget2.y;
 	    star_coord[6] = 0+start.x; //x
 	    star_coord[7] = start.y; //y
 
