@@ -27,48 +27,41 @@ package
 	/**
 	 * Find the angle of a segment from (x1, y1) -> (x2, y2 )
 	 */
-	public static function angleBetween(p1:FlxPoint, p2: FlxPoint):Number {
+	public static function computePlayerLightAngle(p1:FlxPoint, p2: FlxPoint):Number {
 	    var angle:Number = Math.atan2( p2.y - p1.y, p2.x - p1.x );
  	    if(angle < -1){angle = -1;}
 	    if(angle > 1){angle = 1;}
 	  return angle; 
 	}
 
-	public function drawTriangle(Sprite:FlxSprite, start:FlxPoint, target:FlxPoint, LineColor:uint = 0xffffffff, LineThickness:uint = 0, FillColor:uint = 0xffffffff):void {
-	    
+	public function drawLight(Sprite:FlxSprite, origin:FlxPoint,
+	    thickness:int, angle:Number, Color:uint=0xffffffff):void{
+
+
 	    var gfx:Graphics = FlxG.flashGfx;
 	    gfx.clear();
+	    gfx.lineStyle(0, 0x00000000, 0x00);
 	    
-	    // Line alpha
-	    var alphaComponent:Number = Number((LineColor >> 24) & 0xFF) / 255;
-	    if(alphaComponent <= 0)
-	    alphaComponent = 1;
-	    
-	    gfx.lineStyle(LineThickness, LineColor, alphaComponent);
 	    
 	    // Fill alpha
-	    alphaComponent = Number((FillColor >> 24) & 0xFF) / 255;
+	    var alphaComponent:Number = Number((color >> 24) & 0xFF) / 255;
 	    if(alphaComponent <= 0)
 	    alphaComponent = 1;
 	    
-	    gfx.beginFill(FillColor & 0x00ffffff, alphaComponent);
-	    
-	    //	    gfx.drawCircle(start.x, start.y, Radius);
+	    gfx.beginFill(color & 0x00ffffff, alphaComponent);
 
-	    var star_commands:Vector.<int> = new Vector.<int>(4, true);
-	    star_commands[0] = 1;
-	    star_commands[1] = 2;
-	    star_commands[2] = 2;
-	    star_commands[3] = 2;
-	    // star_commands[4] = 2;
+	    var starCommands:Vector.<int> = new Vector.<int>(4, true);
+	    starCommands[0] = 1;
+	    starCommands[1] = 2;
+	    starCommands[2] = 2;
+	    starCommands[3] = 2;
 
-   
-	    var playerMouseAngle:Number = angleBetween(start, target);
-	    var translatePoint:Point = Point.polar(FlxG.width + 200, playerMouseAngle);
-	    var translatePoint1:Point = Point.polar(120, playerMouseAngle + 1.6);
-	    var translatePoint2:Point = Point.polar(120, playerMouseAngle - 1.6);
+	    var translatePoint:Point = Point.polar(FlxG.width + 200, angle);
+	    var translatePoint1:Point = Point.polar(120, angle + 1.6);
+	    var translatePoint2:Point = Point.polar(120, angle - 1.6);
 	    var newTarget:FlxPoint = new FlxPoint();
-	    newTarget.copyFrom(start);
+
+	    newTarget.copyFrom(origin);
 	    newTarget.x += translatePoint.x;
 	    newTarget.y += translatePoint.y;
 	    var newTarget1:FlxPoint = new FlxPoint();
@@ -80,24 +73,24 @@ package
 	    newTarget2.x += translatePoint2.x;
 	    newTarget2.y += translatePoint2.y;
 
-	    var star_coord:Vector.<Number> = new Vector.<Number>(8, true);
-	    star_coord[0] = 0+start.x; //x
-	    star_coord[1] = start.y; //y
-	    star_coord[2] = newTarget1.x;
-	    star_coord[3] = newTarget1.y;
-	    star_coord[4] = newTarget2.x;
-	    star_coord[5] = newTarget2.y;
-	    star_coord[6] = 0+start.x; //x
-	    star_coord[7] = start.y; //y
+	    var starCoord:Vector.<Number> = new Vector.<Number>(8, true);
+	    starCoord[0] = 0+origin.x; //x
+	    starCoord[1] = origin.y; //y
+	    starCoord[2] = newTarget1.x;
+	    starCoord[3] = newTarget1.y;
+	    starCoord[4] = newTarget2.x;
+	    starCoord[5] = newTarget2.y;
+	    starCoord[6] = 0+origin.x; //x
+	    starCoord[7] = origin.y; //y
 
-	    gfx.drawPath(star_commands, star_coord);
+	    gfx.drawPath(starCommands, starCoord);
 
 	    gfx.endFill();
 	    
 	    Sprite.pixels.draw(FlxG.flashGfxSprite);
 	    Sprite.dirty = true;
+	    
 	}
-
 
 	public function fireFlash():void{
 	    flash = FLASH_DEFAULT_LENGTH;
@@ -127,11 +120,13 @@ package
 
 	    /* draw the light*/
 	    if(lightOn){
-		
-		drawTriangle(this,
-		    new FlxPoint(player.x+20-FlxG.camera.scroll.x,
-			player.y-FlxG.camera.scroll.y),
+		var playerLightOrigin:FlxPoint = new FlxPoint(player.x+20-FlxG.camera.scroll.x,
+			player.y - FlxG.camera.scroll.y);  
+
+		var playerLightAngle:Number = computePlayerLightAngle(playerLightOrigin, 
 		    new FlxPoint(FlxG.mouse.x - FlxG.camera.scroll.x, FlxG.mouse.y - FlxG.camera.scroll.y));
+
+		drawLight(this, playerLightOrigin, 0, playerLightAngle, 0);
 	    }
 	    else
 	    fill(0xbb000000);
