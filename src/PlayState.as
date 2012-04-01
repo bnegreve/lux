@@ -2,8 +2,8 @@ package
 {
 	import org.flixel.*;
 	import com.adobe.serialization.json.*;
-    import flash.display.Sprite;
-    import flash.display.*;
+	import flash.display.Sprite;
+	import flash.display.*;
 
 
 
@@ -25,6 +25,8 @@ package
 		private	var cam:FlxCamera; 
 		private var lightMask:LightMask;
 		private var gameState:int; 
+
+		public static var globalCount:int = 0;
 		
 		public static  function screenToWorldCoord(screen:FlxPoint):FlxPoint{
 		    var worldPoint:FlxPoint = new FlxPoint;
@@ -117,6 +119,7 @@ package
 		    player.run();
 		    gameState=1;
 		    cameraTarget.velocity.x=player.maxVelocity.x;
+		    addDrone();
 		}
 
 		public function reset():void{
@@ -124,6 +127,13 @@ package
 		    FlxG.resetState();
 		}
 
+		public function addDrone():void{
+		    var drone:Drone = new Drone(
+screenToWorldCoord(new FlxPoint(400, 100)).x,
+screenToWorldCoord(new FlxPoint(100, 100)).y
+); 
+		    add(drone); 
+		}
 
 		protected function checkBoundaries():void{
 		    if(player.x - cam.scroll.x <3 || player.y > FlxG.height){
@@ -134,6 +144,7 @@ package
        
 		override public function update():void
 		{
+		    globalCount+=1;
 
 			super.update();
 			
