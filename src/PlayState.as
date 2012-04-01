@@ -85,7 +85,7 @@ package
 
 
 		    // Display mouse pointer
-		    FlxG.mouse.show();
+		    // FlxG.mouse.show();
 
 		    // Add the layers to the scene.
 		    add(allLayers);

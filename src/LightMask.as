@@ -28,7 +28,10 @@ package
 	 * Find the angle of a segment from (x1, y1) -> (x2, y2 )
 	 */
 	public static function angleBetween(p1:FlxPoint, p2: FlxPoint):Number {
-	  return Math.atan2( p2.y - p1.y, p2.x - p1.x );
+	    var angle:Number = Math.atan2( p2.y - p1.y, p2.x - p1.x );
+ 	    if(angle < -1){angle = -1;}
+	    if(angle > 1){angle = 1;}
+	  return angle; 
 	}
 
 	public function drawTriangle(Sprite:FlxSprite, start:FlxPoint, target:FlxPoint, LineColor:uint = 0xffffffff, LineThickness:uint = 0, FillColor:uint = 0xffffffff):void {
@@ -62,8 +65,8 @@ package
    
 	    var playerMouseAngle:Number = angleBetween(start, target);
 	    var translatePoint:Point = Point.polar(FlxG.width + 200, playerMouseAngle);
-	    var translatePoint1:Point = Point.polar(100, playerMouseAngle + 1.6);
-	    var translatePoint2:Point = Point.polar(100, playerMouseAngle - 1.6);
+	    var translatePoint1:Point = Point.polar(120, playerMouseAngle + 1.6);
+	    var translatePoint2:Point = Point.polar(120, playerMouseAngle - 1.6);
 	    var newTarget:FlxPoint = new FlxPoint();
 	    newTarget.copyFrom(start);
 	    newTarget.x += translatePoint.x;
