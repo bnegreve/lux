@@ -31,7 +31,6 @@ package
 	  return Math.atan2( p2.y - p1.y, p2.x - p1.x );
 	}
 
-
 	public function drawTriangle(Sprite:FlxSprite, start:FlxPoint, target:FlxPoint, LineColor:uint = 0xffffffff, LineThickness:uint = 0, FillColor:uint = 0xffffffff):void {
 	    
 	    var gfx:Graphics = FlxG.flashGfx;
@@ -60,6 +59,7 @@ package
 	    star_commands[3] = 2;
 	    // star_commands[4] = 2;
 
+   
 	    var playerMouseAngle:Number = angleBetween(start, target);
 	    var translatePoint:Point = Point.polar(FlxG.width + 200, playerMouseAngle);
 	    var translatePoint1:Point = Point.polar(100, playerMouseAngle + 1.6);
@@ -124,7 +124,11 @@ package
 
 	    /* draw the light*/
 	    if(lightOn){
-		drawTriangle(this, new FlxPoint(player.x+20-FlxG.camera.scroll.x , player.y-FlxG.camera.scroll.y), FlxG.mouse);
+		
+		drawTriangle(this,
+		    new FlxPoint(player.x+20-FlxG.camera.scroll.x,
+			player.y-FlxG.camera.scroll.y),
+		    new FlxPoint(FlxG.mouse.x - FlxG.camera.scroll.x, FlxG.mouse.y - FlxG.camera.scroll.y));
 	    }
 	    else
 	    fill(0xbb000000);
