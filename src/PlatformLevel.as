@@ -13,7 +13,10 @@ package
     public var width:Number;
     public var height:Number;
     public static const LEVEL_LENGTH:int = 10000; 
-    public static const LEVEL_HEIGHT:int = 600; 
+    public static const LEVEL_HEIGHT:int = 700;
+    public static const JUMP_MAX_HEIGHT:int = 200; 
+    public static const PLATFORM_MAX_HEIGHT:int = 46; 
+
     [Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
     [Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
     [Embed(source="../maps/struct_props.json",       mimeType="application/octet-stream")] private var PropData:Class;
@@ -90,33 +93,40 @@ package
     }
 
     private function generateLevel(allLayers:FlxGroup):void {
-//	tilesLevel.loadMap(new structLevelFile, myTyles, 10, 10, 0);
-//	allLayers.add(tilesLevel);
-
-
-
 
 	var length:int = LEVEL_LENGTH;
 	FlxG.worldBounds.width = length;
 
 
-	var nextHeight:int = 200;
+	var nextVPos:int = 400; // Vertical post of the first platform.
 	var i:int = 0
 	
-	i+= placeLongPass(i, nextHeight);
+	/* Place  the first platform */
+	i+= placeLongPass(i, nextVPos);
+
+	/* Then the others .. */ 
 	while(i < length){
-	    if(FlxG.random()<0.6){
-	    i+= placeLongPass(i, nextHeight);
-	}else
-	    i+= placePlateforme(i, nextHeight);
-
-	    /* generate a random gap */
+	    /* Generate a random gap. */
 	    i+= FlxG.random()*300;
-	    nextHeight += FlxG.random()*200 - 100;
+	    
+	    /* Compute the next platform vertical position. */
+	    var vOffset:int = FlxG.random()*200 - 100;
+	    nextVPos += vOffset;
+	    vOffset = Math.max(nextVPos,
+		FlxG.height/2 // The camera must not hit the top border of the world ..
+		+ JUMP_MAX_HEIGHT  // .. even if player jumps ..
+		+ PLATFORM_MAX_HEIGHT); // .. from the highest platform.
+	    nextVPos = Math.min(nextVPos, LEVEL_HEIGHT-200);
+	    
+	    /* Put the platform. */
+	    if(FlxG.random()<0.65)
+	    i+= placeLongPass(i, nextVPos);
+	    else
+	    i+= placePlateforme(i, nextVPos);
+	    
 	}
-
-
-	/* add background2 decorations */
+	
+	/* Add background2 decorations */
 	var boatPos:int = FlxG.random()* length ;
 	placeBoat(boatPos, 200); 
 
@@ -173,10 +183,9 @@ package
 
     private function placeLongPass(xpos:int, ypos:int):int{
 	var data:Object  = structProps["plateforme_passerelle_1"];
-	if(ypos >= FlxG.height)
-	ypos = FlxG.height - data.height;
-	if(ypos < 2*data.height)
-	ypos = 2*data.height;
+	 if(ypos >= LEVEL_HEIGHT)
+	 ypos = LEVEL_HEIGHT - data.height;
+
 	
 	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
@@ -188,11 +197,8 @@ package
     private function placePlateforme(xpos:int, ypos:int):int{
 	
 	var data:Object  = structProps["plateforme_vide"];
-	/* make sure there is enough room */
-	 if(ypos >= FlxG.height)
-	 ypos = FlxG.height - data.height;
-	 if(ypos < 2*data.height)
-	 ypos = 2*data.height;
+	 if(ypos >= LEVEL_HEIGHT)
+	 ypos = LEVEL_HEIGHT - data.height;
 
 	var sprite:FlxSprite = new FlxSprite(xpos, ypos);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
