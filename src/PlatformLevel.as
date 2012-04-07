@@ -39,6 +39,9 @@ package
     [Embed(source="../img/arr_4.png"       )] private var arr4:Class;
     [Embed(source="../img/arr_5.png"       )] private var arr5:Class;
     [Embed(source="../img/arr_6.png"       )] private var arr6:Class;
+    [Embed(source="../img/plateforme3_start.png"       )] private var platform3Start:Class;
+    [Embed(source="../img/plateforme3_center.png"       )] private var platform3Center:Class;
+    [Embed(source="../img/plateforme3_end.png"       )] private var platform3End:Class;
     private var structProps:Object = {
 	"struct_up": { image: struct_up, width: 100, height: 20},
 	"struct_down": { image: struct_down, width: 100, height: 20},
@@ -54,7 +57,10 @@ package
 	"arr3": { image: arr3, width: 974, height: 502},
 	"arr4": { image: arr4, width: 461, height: 120},
 	"arr5": { image: arr5, width: 755, height: 322},
-	"arr6": { image: arr6, width: 628, height: 323}
+	"arr6": { image: arr6, width: 628, height: 323},
+	"platform3Start": { image: platform3Start, width: 86, height: 44},
+	"platform3Center": { image: platform3Center, width: 56, height: 44},
+	"platform3End": { image: platform3End, width: 86, height: 44}
       };
 
 
@@ -120,11 +126,14 @@ package
 	    nextYPos = Math.min(nextYPos, LEVEL_HEIGHT-200);
 	    
 	    /* Put the platform. */
-	    if(FlxG.random()<0.65)
+	    if(FlxG.random()<0.35)
 	    i+= placeLongPass(i, nextYPos);
+	    else if(FlxG.random()<0.65){
+	    	var numElements:int = FlxG.random()*10+5;
+	    	i+= placePlatform3(i, nextYPos, numElements);
+	    }
 	    else
 	    i+= placePlateforme(i, nextYPos);
-	    
 	}
 	
 	/* Add background2 decorations */
@@ -193,6 +202,42 @@ package
 	sprite.immovable = true;
 	collideGroup.add(sprite);
 	return data.width;
+    }
+
+
+    private function placePlatform3(xpos:int, ypos:int, numElements:int):int{
+	var xOffset:int = xpos; 
+
+	var data:Object  = structProps["platform3Start"];
+	if(ypos >= LEVEL_HEIGHT)
+	ypos = LEVEL_HEIGHT - data.height;
+	var sprite:FlxSprite = new FlxSprite(xOffset, ypos);
+	sprite.loadGraphic(data.image, true, false,
+	    data.width, data.height);
+	sprite.immovable = true;
+	collideGroup.add(sprite);
+	
+	xOffset += data.width;
+
+	data = structProps["platform3Center"];
+	for(var i:int = 0; i < numElements; i++){
+	    sprite = new FlxSprite(xOffset, ypos);
+	    sprite.loadGraphic(data.image, true, false,
+		data.width, data.height);
+	    xOffset+=data.width;
+	    sprite.immovable = true;
+	    collideGroup.add(sprite);
+	}
+
+	data  = structProps["platform3End"];
+	sprite = new FlxSprite(xOffset, ypos);
+	sprite.loadGraphic(data.image, true, false,
+	    data.width, data.height);
+	sprite.immovable = true;
+	collideGroup.add(sprite);
+	xOffset+=data.width;
+	
+	return xOffset - xpos;
     }
 
     private function placePlateforme(xpos:int, ypos:int):int{
