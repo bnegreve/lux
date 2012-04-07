@@ -100,7 +100,7 @@ package
 
 		    var worldPos:FlxPoint = screenToWorldCoord(new FlxPoint(100, FlxG.height/2));
 
-		    player = new Player(20, globalHeight - 2*(FlxG.height/3)-140);
+		    player = new Player(20, PlatformLevel.FIRST_PLATFORM_YPOS-120);
 
 		    player.stop();
 		    var head:Head = new Head(player);
@@ -111,7 +111,7 @@ package
 		    add(head);
 
 //		    worldPos = screenToWorldCoord(new FlxPoint(70, 100));
-		    add(new FlxText(30, 100,200,"Click to start"))
+		    add(new FlxText(30,PlatformLevel.FIRST_PLATFORM_YPOS-80,200,"Click to start"))
 
 		}
 
@@ -167,7 +167,7 @@ screenToWorldCoord(new FlxPoint(100, 100)).y
 				cameraTarget.velocity.x=0;
 				if(FlxG.mouse.justPressed()){
 				    start(); 
-				    add(new FlxText(FlxG.width/2+cam.scroll.x+40,205,200,"Click to jump"))
+				    add(new FlxText(380,PlatformLevel.FIRST_PLATFORM_YPOS,200,"Click to jump"))
 				}
 			    }
 			}

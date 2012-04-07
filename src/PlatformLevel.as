@@ -16,6 +16,7 @@ package
     public static const LEVEL_HEIGHT:int = 700;
     public static const JUMP_MAX_HEIGHT:int = 200; 
     public static const PLATFORM_MAX_HEIGHT:int = 46; 
+    public static const FIRST_PLATFORM_YPOS:int = 400; 
 
     [Embed(source="../maps/tiles_map.txt", mimeType="application/octet-stream")] private var tilesLevelFile:Class;
     [Embed(source="../maps/struct_maps.txt", mimeType="application/octet-stream")] private var structLevelFile:Class;
@@ -98,11 +99,11 @@ package
 	FlxG.worldBounds.width = length;
 
 
-	var nextVPos:int = 400; // Vertical post of the first platform.
+	var nextYPos:int = FIRST_PLATFORM_YPOS; // Vertical post of the first platform.
 	var i:int = 0
 	
 	/* Place  the first platform */
-	i+= placeLongPass(i, nextVPos);
+	i+= placeLongPass(i, nextYPos);
 
 	/* Then the others .. */ 
 	while(i < length){
@@ -111,18 +112,18 @@ package
 	    
 	    /* Compute the next platform vertical position. */
 	    var vOffset:int = FlxG.random()*200 - 100;
-	    nextVPos += vOffset;
-	    vOffset = Math.max(nextVPos,
+	    nextYPos += vOffset;
+	    vOffset = Math.max(nextYPos,
 		FlxG.height/2 // The camera must not hit the top border of the world ..
 		+ JUMP_MAX_HEIGHT  // .. even if player jumps ..
 		+ PLATFORM_MAX_HEIGHT); // .. from the highest platform.
-	    nextVPos = Math.min(nextVPos, LEVEL_HEIGHT-200);
+	    nextYPos = Math.min(nextYPos, LEVEL_HEIGHT-200);
 	    
 	    /* Put the platform. */
 	    if(FlxG.random()<0.65)
-	    i+= placeLongPass(i, nextVPos);
+	    i+= placeLongPass(i, nextYPos);
 	    else
-	    i+= placePlateforme(i, nextVPos);
+	    i+= placePlateforme(i, nextYPos);
 	    
 	}
 	
