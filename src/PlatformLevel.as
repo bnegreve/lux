@@ -205,14 +205,14 @@ package
 	sprite.immovable = true;
 	collideGroup.add(sprite);
 
-	if(FlxG.random()>0.5){
-	    /* draw a case */
-	    data  = structProps["caisse"];
-	    sprite = new FlxSprite(xpos+10, ypos-18);
-	    sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
-	    sprite.immovable = false;
-	    collideGroup.add(sprite);
-	}
+	// if(FlxG.random()>0.5){
+	//     /* draw a case */
+	//     data  = structProps["caisse"];
+	//     sprite = new FlxSprite(xpos+10, ypos-18);
+	//     sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
+	//     sprite.immovable = false;
+	//     collideGroup.add(sprite);
+	// }
 
 	data  = structProps["plateforme_cabine"];
 	sprite = new FlxSprite(xpos+data.width+10, ypos-40);
@@ -221,7 +221,7 @@ package
 	collideGroup.add(sprite);
 	
 	data  = structProps["base1"];
-	for(var i:int = ypos+40; i < FlxG.height; ){
+	for(var i:int = ypos+40; i < LEVEL_HEIGHT; ){
 	    sprite = new FlxSprite(xpos+10, i);
 	    sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
 	    sprite.immovable = true;
