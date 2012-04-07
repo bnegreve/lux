@@ -27,11 +27,11 @@ package
     [Embed(source="../img/struct_straight.png" )] private var struct_straight:Class;
     [Embed(source="../img/struct_up.png"       )] private var struct_up:Class;
 
-    [Embed(source="../img/plateforme_passerelle_1.png"       )] private var plateformePasserelle1:Class;
-    [Embed(source="../img/plateforme_vide_1.png"       )] private var plateformeVide:Class;
-    [Embed(source="../img/plateforme_cabane_1.png"       )] private var plateformeCabine:Class;
+    [Embed(source="../img/platform_simple_long.png"       )] private var platformSimpleLong:Class;
+    [Embed(source="../img/platform_cabin_base.png"       )] private var platformCabinBase:Class;
+    [Embed(source="../img/platform_cabin_1.png"       )] private var platformCabin:Class;
     [Embed(source="../img/base_1.png"       )] private var base1:Class;
-    [Embed(source="../img/plateforme_caisse_1.png"       )] private var caisse:Class;
+    //    [Embed(source="../img/plateforme_caisse_1.png"       )] private var caisse:Class;
     [Embed(source="../img/boat.png"       )] private var boat:Class;
     [Embed(source="../img/arr_1.png"       )] private var arr1:Class;
     [Embed(source="../img/arr_2.png"       )] private var arr2:Class;
@@ -39,18 +39,18 @@ package
     [Embed(source="../img/arr_4.png"       )] private var arr4:Class;
     [Embed(source="../img/arr_5.png"       )] private var arr5:Class;
     [Embed(source="../img/arr_6.png"       )] private var arr6:Class;
-    [Embed(source="../img/plateforme3_start.png"       )] private var platform3Start:Class;
-    [Embed(source="../img/plateforme3_center.png"       )] private var platform3Center:Class;
-    [Embed(source="../img/plateforme3_end.png"       )] private var platform3End:Class;
+    [Embed(source="../img/platform3_start.png"       )] private var platform3Start:Class;
+    [Embed(source="../img/platform3_center.png"       )] private var platform3Center:Class;
+    [Embed(source="../img/platform3_end.png"       )] private var platform3End:Class;
     private var structProps:Object = {
 	"struct_up": { image: struct_up, width: 100, height: 20},
 	"struct_down": { image: struct_down, width: 100, height: 20},
 	"struct_straight": { image: struct_straight, width: 100, height: 20},
-	"plateforme_passerelle_1": { image: plateformePasserelle1, width: 461, height: 29},
-	"plateforme_vide": { image: plateformeVide, width: 200, height: 46},
-	"plateforme_cabine": { image: plateformeCabine, width: 80, height: 46},
+	"platformSimpleLong": { image: platformSimpleLong, width: 461, height: 29},
+	"platformCabinBase": { image: platformCabinBase, width: 200, height: 46},
+	"platformeCabin": { image: platformCabin, width: 80, height: 46},
 	"base1": { image: base1, width: 170, height: 16}, 
-	"caisse": { image: caisse, width: 16, height: 16},
+//	"caisse": { image: caisse, width: 16, height: 16},
 	"boat": { image: boat, width: 1024, height: 624},
 	"arr1": { image: arr1, width: 428, height: 221},
 	"arr2": { image: arr2, width: 301, height: 424},
@@ -108,11 +108,13 @@ package
 	var nextYPos:int = FIRST_PLATFORM_YPOS; // Vertical post of the first platform.
 	var i:int = 0
 	
-	/* Place  the first platform */
-	i+= placeLongPass(i, nextYPos);
 
+	/* Place  the first platform */
+	i+= placePlatformSimpleLong(i, nextYPos);
+	    
 	/* Then the others .. */ 
 	while(i < length){
+
 	    /* Generate a random gap. */
 	    i+= FlxG.random()*300;
 	    
@@ -127,13 +129,13 @@ package
 	    
 	    /* Put the platform. */
 	    if(FlxG.random()<0.35)
-	    i+= placeLongPass(i, nextYPos);
+	    i+= placePlatformSimpleLong(i, nextYPos);
 	    else if(FlxG.random()<0.65){
 	    	var numElements:int = FlxG.random()*10+5;
 	    	i+= placePlatform3(i, nextYPos, numElements);
 	    }
 	    else
-	    i+= placePlateforme(i, nextYPos);
+	    i+= placePlatformeCabin(i, nextYPos);
 	}
 	
 	/* Add background2 decorations */
@@ -191,8 +193,8 @@ package
 	backgroundGroup2.add(sprite);
     }
 
-    private function placeLongPass(xpos:int, ypos:int):int{
-	var data:Object  = structProps["plateforme_passerelle_1"];
+    private function placePlatformSimpleLong(xpos:int, ypos:int):int{
+	var data:Object  = structProps["platformSimpleLong"];
 	 if(ypos >= LEVEL_HEIGHT)
 	 ypos = LEVEL_HEIGHT - data.height;
 
@@ -240,9 +242,9 @@ package
 	return xOffset - xpos;
     }
 
-    private function placePlateforme(xpos:int, ypos:int):int{
+    private function placePlatformeCabin(xpos:int, ypos:int):int{
 	
-	var data:Object  = structProps["plateforme_vide"];
+	var data:Object  = structProps["platformCabinBase"];
 	 if(ypos >= LEVEL_HEIGHT)
 	 ypos = LEVEL_HEIGHT - data.height;
 
@@ -260,7 +262,7 @@ package
 	//     collideGroup.add(sprite);
 	// }
 
-	data  = structProps["plateforme_cabine"];
+	data  = structProps["platformeCabin"];
 	sprite = new FlxSprite(xpos+data.width+10, ypos-40);
 	sprite.loadGraphic(data.image, true, false, data.width, data.height, false);
 	sprite.immovable = true;
