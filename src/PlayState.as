@@ -42,42 +42,18 @@ package
 		    gameState=0;/* game is running */
 		    allLayers = new FlxGroup();
 
-		    // Differents must eb added in order, from background to foreground
+		    // Differents must be added in order, from background to foreground
 
 		    platformLevel = new PlatformLevel(allLayers);
 		    globalWidth = platformLevel.width;
 		    globalHeight = platformLevel.height;
 		    trace("globalWidth:"+globalWidth+" globalHeight:"+globalHeight);
-		    //Set the background color to light gray (0xAARRGGBB)
 		    FlxG.bgColor = 0xff333333;
 		    
 		    seaLayers = new SeaLayers(allLayers, globalWidth, globalHeight);
-		    
-		    /* Flixel only checks for collisions within a fixed
-		    * size to save on performance (smaller area to check
-		    * for collisions = faster). Change the world bounds to
-		    * tell flixel the area within which to check for
-		    * collisions.  As long as the level is reasonably
-		    * sized, this can easily be set once at the beginning
-		    * of the level and forgotten.  If you have larger
-		    * levels and are seeing a drop in performance, you can
-		    * keep updating the world bounds to the visible area
-		    * and freezing objects out of view. Updating the world
-		    * bounds itself is a cheap operation.  */
 		    FlxG.worldBounds = new FlxRect(0, 0, globalWidth, globalHeight);
-		    
-		    trace("width: "+ globalWidth);
-		    trace("height: "+globalHeight);
-		    
-		    /* The camera won't travel beyond the limits defined
-		    * here. Useful so that it won't travel to places the
-		    * player isn't supposed to see (for example beyond the
-		    * edge of the level in the demo). */
-		    
-		    
+
 		    cam = FlxG.camera;
-
-
 		    cameraTarget = new FlxObject(FlxG.height/2, FlxG.width);
 		    add(cameraTarget);
 		    cameraTarget.velocity.x = 275;
@@ -92,15 +68,7 @@ package
 		    add(allLayers);
 
 
-
-		    // FlxG.camera.setBounds(0, 0, tilesLevel.width, FlxG.height);
-		    // FlxG.camera.follow(player);
-		    // FlxG.addCamera(FlxG.camera);
-
-		    var worldPos:FlxPoint = screenToWorldCoord(new FlxPoint(100, FlxG.height/2));
-
 		    player = new Player(20, PlatformLevel.FIRST_PLATFORM_YPOS-120);
-
 		    player.stop();
 		    var head:Head = new Head(player);
 		    lightMask = new LightMask(head);
@@ -109,7 +77,6 @@ package
 		    add(player);
 		    add(head);
 
-//		    worldPos = screenToWorldCoord(new FlxPoint(70, 100));
 		    add(new FlxText(30,PlatformLevel.FIRST_PLATFORM_YPOS-80,200,"Click to start"))
 
 		}
@@ -128,14 +95,14 @@ package
 
 		public function addDrone():void{
 		    var drone:Drone = new Drone(
-screenToWorldCoord(new FlxPoint(400, 100)).x,
-screenToWorldCoord(new FlxPoint(100, 100)).y
-); 
+			screenToWorldCoord(new FlxPoint(400, 100)).x,
+			screenToWorldCoord(new FlxPoint(100, 100)).y
+		    );
 		    add(drone); 
 		}
 
 		protected function checkBoundaries():void{
-		    if(player.x - cam.scroll.x <3 || player.y > FlxG.height){
+		    if(player.x - cam.scroll.x <3 || player.y > globalHeight){
 			player.kill();
 			reset();
 		    }
@@ -145,36 +112,36 @@ screenToWorldCoord(new FlxPoint(100, 100)).y
 		{
 		    globalCount+=1;
 
-			super.update();
+		    super.update();
+		    
+		    cameraTarget.y=player.y;
+
+		    if(gameState == 1){
+			checkBoundaries();
 			
-			cameraTarget.y=player.y;
+			FlxG.collide(platformLevel.tilesLevel,player);
+			FlxG.collide(platformLevel.collideGroup,player);
 
-			if(gameState == 1){
-			    checkBoundaries();
-			    
-			    FlxG.collide(platformLevel.tilesLevel,player);
-			    FlxG.collide(platformLevel.collideGroup,player);
-
- 			    if(FlxG.random()>0.995)
-			    lightMask.fireFlash();
+ 			if(FlxG.random()>0.995)
+			lightMask.fireFlash();
 
 
-			}
-			else{
-			    if(gameState == 0){
-				player.stop();
-				cameraTarget.velocity.x=0;
-				if(FlxG.mouse.justPressed()){
-				    start(); 
-				    add(new FlxText(380,PlatformLevel.FIRST_PLATFORM_YPOS,200,"Click to jump"))
-				}
+		    }
+		    else{
+			if(gameState == 0){
+			    player.stop();
+			    cameraTarget.velocity.x=0;
+			    if(FlxG.mouse.justPressed()){
+				start();
+				add(new FlxText(380,PlatformLevel.FIRST_PLATFORM_YPOS,200,"Click to jump"))
 			    }
 			}
 		    }
+		}
 
 
 		public function gameOver():void{
-		    gameState = 0; 
+		    gameState = 0;
 		    cameraTarget.velocity.x = 0;
 		    lightMask.lightOn = false;
 		    add(new FlxText(FlxG.width/2+cam.scroll.x,FlxG.height/2,400,"Game Over"))

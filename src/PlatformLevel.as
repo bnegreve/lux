@@ -102,9 +102,6 @@ package
     private function generateLevel(allLayers:FlxGroup):void {
 
 	var length:int = LEVEL_LENGTH;
-	FlxG.worldBounds.width = length;
-
-
 	var nextYPos:int = FIRST_PLATFORM_YPOS; // Vertical post of the first platform.
 	var i:int = 0
 	
