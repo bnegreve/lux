@@ -11,7 +11,7 @@ package
 	{
 
 		private var player:Player;
-		private var cameraTarget:FlxSprite;
+		private var cameraTarget:FlxObject;
 		
 		private var platformLevel:PlatformLevel;
 		private var seaLayers:SeaLayers;
@@ -78,8 +78,7 @@ package
 		    cam = FlxG.camera;
 
 
-		    cameraTarget = new FlxSprite(FlxG.height/2, FlxG.width);
-//		    cameraTarget = new FlxSprite(FlxG.width/2, globalHeight - FlxG.height/2);
+		    cameraTarget = new FlxObject(FlxG.height/2, FlxG.width);
 		    add(cameraTarget);
 		    cameraTarget.velocity.x = 275;
 		    cam.follow(cameraTarget);
